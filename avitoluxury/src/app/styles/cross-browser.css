@@ -1,0 +1,173 @@
+/* Cross-browser compatibility styles */
+
+/* Box sizing for all elements */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, 
+blockquote, pre, a, abbr, address, cite, code, 
+del, em, img, ins, kbd, q, s, samp, small, strike, 
+strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, ul, li, 
+fieldset, form, label, legend, table, caption, tbody, tfoot, 
+thead, tr, th, td, article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, menu, nav, 
+output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, menu, nav, section {
+  display: block;
+}
+
+/* Set base font size and smooth scrolling */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Responsive body */
+body {
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Responsive images */
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Remove outline for non-keyboard focus */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Preserve focus outline for keyboard users */
+:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Improve button styling across browsers */
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+/* Improve form element styling */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Fix for iOS button styling */
+button, [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: button;
+}
+
+/* Responsive tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+/* Scrollbar styling for WebKit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Improve touch targets on mobile */
+  button, 
+  input[type="button"], 
+  input[type="submit"],
+  input[type="reset"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Media query for large screens */
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Media query for print */
+@media print {
+  body {
+    background: white;
+    font-size: 12pt;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+}
+
+/* Fix for iOS input zoom */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Fix for Firefox focus rings */
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Fix for Safari overflow */
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for IE11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+} 

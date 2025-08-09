@@ -1,0 +1,120 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { 
+      "source": "/store", 
+      "destination": "/store-routes" 
+    },
+    { 
+      "source": "/store/:path*", 
+      "destination": "/store-routes/store/:path*" 
+    },
+    { 
+      "source": "/product/:path*", 
+      "destination": "/store-routes/product/:path*" 
+    }
+  ],
+  "build": {
+    "env": {
+      "NEXT_PRIVATE_STANDALONE": "true"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/admin/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "avitoluxury.in"
+        }
+      ],
+      "missing": [
+        {
+          "type": "host",
+          "value": "localhost"
+        }
+      ],
+      "destination": "https://admin.avitoluxury.in/admin/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/admin/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.avitoluxury.in"
+        }
+      ],
+      "missing": [
+        {
+          "type": "host",
+          "value": "localhost"
+        }
+      ],
+      "destination": "https://admin.avitoluxury.in/admin/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.avitoluxury.in"
+        }
+      ],
+      "missing": [
+        {
+          "type": "path",
+          "value": "^/admin.*"
+        },
+        {
+          "type": "path",
+          "value": "^/_next.*"
+        },
+        {
+          "type": "host",
+          "value": "localhost"
+        }
+      ],
+      "destination": "https://avitoluxury.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.avitoluxury.in"
+        }
+      ],
+      "missing": [
+        {
+          "type": "host",
+          "value": "localhost"
+        }
+      ],
+      "destination": "https://admin.avitoluxury.in/admin/login",
+      "permanent": false
+    }
+  ]
+} 
