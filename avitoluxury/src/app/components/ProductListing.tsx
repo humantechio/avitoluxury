@@ -199,7 +199,7 @@ export default function ProductListing({
   
   // Filter states
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState('price-low-high');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedGender, setSelectedGender] = useState<string[]>([]);
   const [selectedVolume, setSelectedVolume] = useState<string[]>([]);
@@ -392,7 +392,7 @@ export default function ProductListing({
       const maxPrice = Math.ceil(Math.max(...prices)) || 10000;
       setPriceRange([minPrice, maxPrice]);
     }
-    setSortBy('newest');
+    setSortBy('price-low-high');
   };
   
   return (

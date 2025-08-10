@@ -177,8 +177,21 @@ export default function Footer() {
           <div className="flex flex-col items-center">
             <p className="text-lg font-bold bg-gradient-to-r from-pink-500 via-yellow-400 to-red-500 bg-clip-text text-transparent drop-shadow-md tracking-wide mb-1 animate-pulse">Crafted in France, Bottled in India</p>
             <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} A V I T O   S C E N T S. All rights reserved.
-            </p>
+  &copy; {new Date().getFullYear()} AVITO SCENTS. All rights reserved.
+  <span className="text-xs text-gray-500">
+    {" "}Website Is Designed & Developed By{" "}
+    <a
+      href="https://humantech.in/"
+      className="text-gray-500 hover:text-black"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span className="text-lg font-bold" style={{ color: "#ee4266" }}>H</span>
+      <span className="text-lg font-bold" style={{ color: "#000000" }}>T</span>
+    </a>
+  </span>
+</p>
+
           </div>
         </div>
       </div>

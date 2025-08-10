@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { FiMenu, FiX, FiChevronDown, FiSearch, FiShoppingBag, FiMoreVertical, FiArrowLeft } from 'react-icons/fi';
+import { FiMenu, FiX, FiChevronDown, FiSearch, FiShoppingBag } from 'react-icons/fi';
 import MiniCartWithModal from './MiniCartWithModal';
 
 // Define interfaces for component props and state
@@ -69,7 +69,6 @@ export default function Nav() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [mobileOptionsOpen, setMobileOptionsOpen] = useState(false);
   
   // Refs for dropdown elements
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -175,9 +174,15 @@ export default function Nav() {
   // Handle clicks outside dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (activeDropdown && 
-          dropdownRefs.current[activeDropdown] && 
-          !dropdownRefs.current[activeDropdown]?.contains(event.target as Node)) {
+      // Ignore outside-click closing while mobile menu is open
+      if (mobileMenuOpen) {
+        return;
+      }
+      if (
+        activeDropdown &&
+        dropdownRefs.current[activeDropdown] &&
+        !dropdownRefs.current[activeDropdown]?.contains(event.target as Node)
+      ) {
         setActiveDropdown(null);
       }
     };
@@ -187,7 +192,7 @@ export default function Nav() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [activeDropdown]);
+  }, [activeDropdown, mobileMenuOpen]);
   
   // Focus search input when search is opened
   useEffect(() => {
@@ -259,12 +264,7 @@ export default function Nav() {
   }, [mobileMenuOpen]);
   
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    setMobileOptionsOpen(false);
-  };
-  
-  const toggleMobileOptions = () => {
-    setMobileOptionsOpen(!mobileOptionsOpen);
+    setMobileMenuOpen((prev) => !prev);
   };
   
   const toggleSearch = () => {
@@ -470,38 +470,16 @@ export default function Nav() {
                   )}
                 </button>
               )}
-              {/* Mobile menu options */}
-              <div className="md:hidden relative">
+              {/* Mobile menu toggle */}
+              <div className="md:hidden">
                 <button
-                  onClick={toggleMobileOptions}
-                  className="text-gray-700 hover:text-black p-2 rounded-full hover:bg-gray-100 transition-all duration-300"
-                  aria-label="Options"
+                  onClick={toggleMobileMenu}
+                  className="text-gray-700 hover:text-black p-2.5 rounded-full hover:bg-gray-100 transition-all duration-300"
+                  aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                  aria-expanded={mobileMenuOpen}
                 >
-                  <FiMoreVertical size={24} />
+                  {mobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
                 </button>
-                
-                {mobileOptionsOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden z-50">
-                    <div className="py-2">
-                      <button
-                        onClick={toggleMobileMenu}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black flex items-center"
-                      >
-                        {mobileMenuOpen ? <FiX className="mr-2" size={16} /> : <FiMenu className="mr-2" size={16} />}
-                        {mobileMenuOpen ? 'Close Menu' : 'Menu'}
-                      </button>
-                      {navItems.track && (
-                        <Link
-                          href="/order-tracking"
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
-                          onClick={() => setMobileOptionsOpen(false)}
-                        >
-                          Track Order
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -530,8 +508,13 @@ export default function Nav() {
                       }`}
                     onClick={() => {
                       if (item.hasDropdown) {
-                        toggleDropdown(item.id);
-                        router.push(item.path);
+                        // Only use hover/inline click for desktop; on mobile, chevron controls dropdown
+                        if (window.matchMedia('(min-width: 768px)').matches) {
+                          toggleDropdown(item.id);
+                          router.push(item.path);
+                        } else {
+                          router.push(item.path);
+                        }
                       } else {
                         router.push(item.path);
                       }
@@ -607,69 +590,90 @@ export default function Nav() {
       
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 fixed inset-x-0 top-[60px] z-40 overflow-y-auto max-h-[calc(100vh-60px)]">
-          <div className="container mx-auto px-4 py-4">
-            {/* Back button */}
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
+        <div className="md:hidden fixed inset-0 z-40 bg-white overflow-y-auto">
+          {/* Sticky header inside mobile menu */}
+          <div className="sticky top-0 bg-white border-b border-gray-200">
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <img
+                  src="/avito3-16.png"
+                  alt="A V I T O   S C E N T S"
+                  className="h-8 w-auto"
+                />
+              </div>
               <button
                 onClick={toggleMobileMenu}
-                className="flex items-center text-gray-700 hover:text-black"
+                className="p-2.5 rounded-full hover:bg-gray-100 text-gray-700 hover:text-black"
+                aria-label="Close menu"
               >
-                <FiArrowLeft className="mr-2" size={20} />
-                <span className="font-medium">Back</span>
+                <FiX size={24} />
               </button>
             </div>
-            
+          </div>
+
+          <div className="container mx-auto px-4 py-4">
             {/* Search in mobile menu */}
             {componentSettings.search && (
-              <div className="mb-4 pb-4 border-b border-gray-200">
+              <div className="mb-4">
                 <form onSubmit={handleSearch} className="flex">
                   <input
                     type="text"
                     placeholder="Search products..."
-                    className="flex-1 border-gray-300 border rounded-l-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-black text-sm"
+                    className="flex-1 h-12 border-gray-300 border rounded-l-full px-4 focus:outline-none focus:ring-2 focus:ring-black text-base"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <button 
                     type="submit"
-                    className="bg-black text-white py-2 px-4 rounded-r-md hover:bg-gray-800"
+                    className="bg-black text-white h-12 px-5 rounded-r-full hover:bg-gray-800"
+                    aria-label="Search"
                   >
-                    <FiSearch size={16} />
+                    <FiSearch size={18} />
                   </button>
                 </form>
               </div>
             )}
-            
-            <nav className="space-y-4">
+
+            <nav className="space-y-1">
               {navigationItems.map((item) => 
                 navItems[item.id] ? (
-                  <div key={item.id} className="border-b border-gray-100 pb-2">
+                  <div key={item.id} className="border-b border-gray-100 pb-1">
                     {item.hasDropdown ? (
                       <>
-                        <div className="flex items-center justify-between w-full py-2 font-medium text-gray-700 hover:text-black transition-colors">
-                          <Link
-                            href={item.path}
-                            className="flex-grow"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            <span>{item.name}</span>
-                          </Link>
-                          <button 
+                        <div className="flex items-center justify-between w-full py-3.5 min-h-[44px] text-gray-800">
+                          <button
+                            type="button"
+                            className="flex-grow text-left text-base font-medium"
                             onClick={() => toggleDropdown(item.id)}
-                            className="p-1 bg-gray-50 rounded-full"
+                            aria-expanded={activeDropdown === item.id}
+                            aria-controls={`${item.id}-submenu`}
                           >
-                            <FiChevronDown className={`transition-transform duration-300 ${activeDropdown === item.id ? 'rotate-180' : ''}`} size={16} />
+                            {item.name}
+                          </button>
+                          <button 
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); toggleDropdown(item.id); }}
+                            className="p-3 rounded-full hover:bg-gray-100"
+                            aria-label={activeDropdown === item.id ? 'Collapse' : 'Expand'}
+                            aria-expanded={activeDropdown === item.id}
+                          >
+                            <FiChevronDown className={`transition-transform duration-300 ${activeDropdown === item.id ? 'rotate-180' : ''}`} size={20} />
                           </button>
                         </div>
-                        
                         {activeDropdown === item.id && (
-                          <div className="pl-4 mt-2 space-y-2 border-l-2 border-gray-200 bg-white">
+                          <div id={`${item.id}-submenu`} className="pl-3 mt-1 mb-2 space-y-1 border-l-2 border-gray-200">
+                            <Link
+                              href={item.path}
+                              className="block py-3 pr-2 text-gray-900 font-medium hover:text-black text-sm transition-colors"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              View all
+                            </Link>
                             {item.dropdownItems?.map((dropdownItem) => (
                               <Link
                                 key={dropdownItem.path}
                                 href={dropdownItem.path}
-                                className="block py-2 text-gray-600 hover:text-black transition-colors hover:pl-2"
+                                className="block py-3 pr-2 text-gray-700 hover:text-black text-sm transition-colors"
                                 onClick={() => setMobileMenuOpen(false)}
                               >
                                 {dropdownItem.name}
@@ -681,7 +685,7 @@ export default function Nav() {
                     ) : (
                       <Link
                         href={item.path}
-                        className="block py-2 font-medium text-gray-700 hover:text-black transition-colors duration-200 hover:pl-2 border-l-0 hover:border-l-2 hover:border-black"
+                        className="block py-3.5 min-h-[44px] text-base font-medium text-gray-800 hover:text-black transition-colors duration-200"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.name}
@@ -690,28 +694,27 @@ export default function Nav() {
                   </div>
                 ) : null
               )}
-              
+
               {/* Additional mobile menu items */}
               <div className="border-t border-gray-200 pt-4 mt-4">
                 {navItems.about && (
                   <Link
                     href="/about-us"
-                    className="block py-2 text-gray-700 hover:text-black transition-colors duration-200 hover:pl-2 border-l-0 hover:border-l-2 hover:border-black"
+                    className="block py-3.5 min-h-[44px] text-gray-800 hover:text-black transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     About Us
                   </Link>
                 )}
-                
-                {/* {navItems.track && (
+                {navItems.track && (
                   <Link
-                    href="/track-order"
-                    className="block py-2 text-gray-700 hover:text-black transition-colors duration-200 hover:pl-2 border-l-0 hover:border-l-2 hover:border-black"
+                    href="/order-tracking"
+                    className="block py-3.5 min-h-[44px] text-gray-800 hover:text-black transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Track Order
                   </Link>
-                )} */}
+                )}
               </div>
             </nav>
           </div>
