@@ -176,7 +176,7 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-bold mt-8 mb-4">Contact Us</h2>
           <p>If you have any questions about this Privacy Policy, You can contact us:</p>
           <ul className="list-disc pl-6 mb-6 space-y-2">
-            <li>By email: support@avitoluxury.in</li>
+            <li>By email: <a href="mailto:info@avitoluxury.in" className="text-blue-600 hover:underline">info@avitoluxury.in</a></li>
             <li>By visiting this page on our website: <a href="https://www.avitoluxury.in/contact" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">https://www.avitoluxury.in/contact</a></li>
             <li>By phone number: 9001806653, 9928500900</li>
             <li>By mail: Pipli Chowk Maderna Colony behind Mandore, Krishi Mandi, Jodhpur, Rajsthan - 342007</li>
