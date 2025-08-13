@@ -186,8 +186,8 @@ export default function Footer() {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span className="text-lg font-bold" style={{ color: "#ee4266" }}>H</span>
-      <span className="text-lg font-bold" style={{ color: "#000000" }}>T</span>
+      <span className="text-lg font-bold" style={{ color: "#ee4266" }}>human</span>
+      <span className="text-lg font-bold" style={{ color: "#000000" }}>Tech</span>
     </a>
   </span>
 </p>
