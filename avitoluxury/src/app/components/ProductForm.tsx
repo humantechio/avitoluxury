@@ -106,9 +106,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   // Dynamic volume options based on product type
   const volumeOptions = {
-    'Perfumes': ['20ml', '50ml', '100ml'],
-    'Aesthetic Attars': ['5ml', '8ml', '10ml'],
-    'Air Fresheners': ['10ml', '250ml'],
+    'Perfumes': ['3ml', '6ml', '9ml', '10ml', '12ml', '15ml', '20ml', '30ml', '50ml', '100ml', '150ml', '200ml'],
+    'Aesthetic Attars': ['3ml', '6ml', '9ml', '10ml', '12ml', '15ml', '20ml', '30ml', '50ml', '100ml', '150ml', '200ml'],
+    'Air Fresheners': ['3ml', '6ml', '9ml', '10ml', '12ml', '15ml', '20ml', '30ml', '50ml', '100ml', '150ml', '200ml',],
     'Waxfume (Solid)': ['10gms', '25gms']
   };
 
