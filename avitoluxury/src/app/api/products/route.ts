@@ -64,8 +64,8 @@ export async function GET(request: NextRequest) {
     
     console.log('Product filter:', filter);
     
-    // Execute query with filters
-    const products = await Product.find(filter).sort({ createdAt: -1 });
+    // Execute query with filters - remove hardcoded sorting
+    const products = await Product.find(filter);
     
     console.log(`Found ${products.length} products matching filter`);
     
