@@ -231,7 +231,7 @@ export default function PublicInvoicePage() {
             </div>
             <div className="text-sm text-gray-500">
               <p>AVITO LUXURY</p>
-              <p>contact@avitoluxury.in</p>
+              <p><a href="mailto:contact@avitoluxury.in" className="text-blue-600 hover:underline">contact@avitoluxury.in</a></p>
             </div>
           </div>
         </div>

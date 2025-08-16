@@ -518,14 +518,16 @@ export default function ProductListing({
                 </div>
               )}
               
-              {/* Gender */}
+              {/* Gender / Use For */}
               {availableGenders.length > 0 && (
                 <div className="border-t border-gray-200 py-4">
                   <div 
                     className="flex justify-between items-center cursor-pointer"
                     onClick={() => setIsGenderOpen(!isGenderOpen)}
                   >
-                    <h4 className="font-medium">Gender</h4>
+                    <h4 className="font-medium">
+                      {productType === 'Air Fresheners' ? 'Use For' : 'Gender'}
+                    </h4>
                     {isGenderOpen ? <FiChevronUp /> : <FiChevronDown />}
                   </div>
                   

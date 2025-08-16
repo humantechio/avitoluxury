@@ -315,7 +315,7 @@ export async function POST(request: Request) {
     // Use custom shipping price if provided, otherwise calculate based on subtotal
     const shippingPrice = typeof customShippingPrice === 'number' ? 
       customShippingPrice : 
-      (subtotal > 500 ? 0 : 50); // Free shipping over 500
+      (subtotal > 500 ? 0 : 75); // Free shipping over 500
     
     // Apply discount if provided
     const discount = discountAmount || 0;

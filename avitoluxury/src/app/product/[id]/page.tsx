@@ -483,8 +483,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                   <td className="py-2">{product.volume || '50ml'}</td>
                 </tr>
                 <tr className="border-b">
-                  <td className="py-2 text-gray-500">Gender</td>
-                  <td className="py-2">{product.gender || 'Unisex'}</td>
+                  <td className="py-2 text-gray-500">
+                    {product.productType === 'Air Fresheners' ? 'Use For' : 'Gender'}
+                  </td>
+                  <td className="py-2">
+                    {product.productType === 'Air Fresheners' 
+                      ? (product.category || product.gender || 'Unisex') 
+                      : (product.gender || 'Unisex')
+                    }
+                  </td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 text-gray-500">Product Type</td>

@@ -143,7 +143,7 @@ const ProductSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Unisex'],
+    enum: ['Male', 'Female', 'Unisex', 'Other'],
     default: 'Unisex'
   },
   bulletPoints: {

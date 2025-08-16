@@ -76,9 +76,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
   // Dynamic subcategories based on product type and category
   const subCategoryOptions = {
     'Perfumes': {
-      'Value for Money': ['Peach', 'Sea Musk'],
-      'Premium Perfumes': ['Founder', 'Nectar'],
-      'Luxury Perfumes': ['Brise DavrilI'],
+      'Value for Money': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Premium Perfumes': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Luxury Perfumes': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
       'Combo Sets': [
         'Two 20 ml Set Combo Woman (Peach/Breeze)',
         'Four 20 ml Set Combo Unisex (Founder, Nectar, Sea Musk, Peach)',
@@ -87,8 +87,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
       ]
     },
     'Aesthetic Attars': {
-      'Premium Attars': ['Rose', 'Amber', 'Sandalwood', 'Kewra', 'Green Khus', 'Coffee'],
-      'Luxury Attars': ['Royal Blue', 'Blue Lomani', 'La Flora', 'Arabian OUD', 'Caramal'],
+      'Premium Attars': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Luxury Attars': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
       'Combo Sets': [
         'Daily Officer Wear (Rose, Royal Blue, Arabian OUD)',
         'Party Wear (Musk Rose, Amber, La Flora)',
@@ -96,8 +96,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
       ]
     },
     'Air Fresheners': {
-      'Room Fresheners': ['Lavender', 'Chandan', 'Gulab', 'Lemon', 'Musk', 'Vanila'],
-      'Car Diffusers': ['Lavender', 'Chandan', 'Gulab', 'Lemon', 'Musk', 'Vanila']
+      'Room Fresheners': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Car Diffusers': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
     },
     'Waxfume (Solid)': {
       'Tin Zar': []
@@ -605,6 +605,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Unisex">Unisex</option>
+              <option value="Other">Other</option>
             </select>
             {errors.gender && (
               <p className="mt-1 text-sm text-red-600">{errors.gender.message}</p>
