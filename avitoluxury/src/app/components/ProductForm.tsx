@@ -76,9 +76,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
   // Dynamic subcategories based on product type and category
   const subCategoryOptions = {
     'Perfumes': {
-      'Value for Money': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
-      'Premium Perfumes': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
-      'Luxury Perfumes': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Value for Money': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
+      'Premium Perfumes': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
+      'Luxury Perfumes': ['Flower', 'Woody',  'Musk', 'Amber', 'Citrus'],
       'Combo Sets': [
         'Two 20 ml Set Combo Woman (Peach/Breeze)',
         'Four 20 ml Set Combo Unisex (Founder, Nectar, Sea Musk, Peach)',
@@ -87,8 +87,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
       ]
     },
     'Aesthetic Attars': {
-      'Premium Attars': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
-      'Luxury Attars': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Premium Attars': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
+      'Luxury Attars': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
       'Combo Sets': [
         'Daily Officer Wear (Rose, Royal Blue, Arabian OUD)',
         'Party Wear (Musk Rose, Amber, La Flora)',
@@ -96,8 +96,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
       ]
     },
     'Air Fresheners': {
-      'Room Fresheners': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
-      'Car Diffusers': ['Flower', 'Woody', 'Sandalwood', 'Musk', 'Amber', 'Citrus'],
+      'Room Fresheners': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
+      'Car Diffusers': ['Flower', 'Woody', 'Musk', 'Amber', 'Citrus'],
     },
     'Waxfume (Solid)': {
       'Tin Zar': []

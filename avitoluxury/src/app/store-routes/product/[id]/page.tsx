@@ -519,21 +519,18 @@ export default function ProductDetailPage() {
               </div>
             )}
             
-            {/* Fragrance Notes / Product Attributes */}
+            {/* Fragrance Notes */}
             {product.fragrance_notes && (
               <div>
-                <h3 className="text-sm font-medium uppercase mb-2">
-                  {product.productType === 'Air Fresheners' ? 'Product Attributes' : 'Fragrance Notes'}
-                </h3>
+                <h3 className="text-sm font-medium uppercase mb-2">Product Attributes</h3>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <h4 className="text-xs text-gray-500">
-                      {product.productType === 'Air Fresheners' ? 'Use For' : 'Gender'}
-                    </h4>
+                    <h4 className="text-xs text-gray-500">Gender</h4>
                     <ul className="mt-1 text-sm">
                       {product.fragrance_notes.top.map((note, index) => (
                         <li key={index}>{note}</li>
                       ))}
+                      
                     </ul>
                   </div>
                   <div>
@@ -545,13 +542,12 @@ export default function ProductDetailPage() {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xs text-gray-500">
-                      {product.productType === 'Air Fresheners' ? 'Type' : 'Fragrance'}
-                    </h4>
+                    <h4 className="text-xs text-gray-500">Fragrance</h4>
                     <ul className="mt-1 text-sm">
                       {product.fragrance_notes.base.map((note, index) => (
                         <li key={index}>{note}</li>
                       ))}
+                      
                     </ul>
                   </div>
                 </div>
@@ -583,15 +579,8 @@ export default function ProductDetailPage() {
                     <td className="py-2">{product.concentration}</td>
                   </tr>
                   <tr>
-                    <td className="py-2 text-gray-500">
-                      {product.productType === 'Air Fresheners' ? 'Use For' : 'Gender'}
-                    </td>
-                    <td className="py-2">
-                      {product.productType === 'Air Fresheners' 
-                        ? (product.category || product.gender) 
-                        : product.gender
-                      }
-                    </td>
+                    <td className="py-2 text-gray-500">Gender</td>
+                    <td className="py-2">{product.gender}</td>
                   </tr>
                   <tr>
                     <td className="py-2 text-gray-500">Category</td>
