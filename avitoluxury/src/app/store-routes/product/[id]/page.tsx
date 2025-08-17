@@ -393,7 +393,34 @@ export default function ProductDetailPage() {
               <span className="text-gray-500 mx-2">/</span>
             </li>
             <li>
-              <Link href={`/category/${product.category.toLowerCase()}`} className="text-gray-500 hover:text-black">
+              <Link 
+                href={
+                  // Aesthetic Attars categories
+                  product.category.toLowerCase() === 'luxury attars' 
+                    ? '/aesthetic-attars/luxury' 
+                    : product.category.toLowerCase() === 'premium attars'
+                      ? '/aesthetic-attars/premium'
+                      : product.category.toLowerCase() === 'combo attars'
+                        ? '/aesthetic-attars/combo'
+                  // Perfumes categories
+                    : product.category.toLowerCase() === 'luxury perfumes'
+                      ? '/perfumes/luxury'
+                    : product.category.toLowerCase() === 'premium perfumes'
+                      ? '/perfumes/premium'
+                    : product.category.toLowerCase() === 'value for money'
+                      ? '/perfumes/value-for-money'
+                    : product.category.toLowerCase() === 'combo sets' && product.productType?.toLowerCase() === 'perfumes'
+                      ? '/perfumes/combo'
+                  // Air Fresheners categories
+                    : product.category.toLowerCase() === 'room fresheners'
+                      ? '/air-fresheners/room'
+                    : product.category.toLowerCase() === 'car diffusers'
+                      ? '/air-fresheners/car'
+                  // Default fallback
+                    : `/category/${product.category.toLowerCase()}`
+                } 
+                className="text-gray-500 hover:text-black"
+              >
                 {product.category}
               </Link>
             </li>
