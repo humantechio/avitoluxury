@@ -270,7 +270,16 @@ export default function ProductListing({
     // Extract volume values
     const volumeValues = products.map(p => p.volume).filter(Boolean) as string[];
     const volumes = [...new Set(volumeValues)];
-    setAvailableVolumes(volumes);
+        
+    // Sort volumes numerically by extracting the number part
+    const sortedVolumes = volumes.sort((a, b) => {
+      // Extract numeric part from strings like '3ml', '6ml', '10ml', etc.
+      const numA = parseInt(a.replace(/[^0-9]/g, ''));
+      const numB = parseInt(b.replace(/[^0-9]/g, ''));
+      return numA - numB;
+    });
+    
+    setAvailableVolumes(sortedVolumes);
     
     // Extract tags
     const allTags = products.flatMap(product => product.tags || []);
