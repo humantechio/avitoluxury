@@ -108,7 +108,7 @@ export default function OTPVerificationModal({
       setResendLoading(true);
       
       // Call API to resend OTP
-      const response = await fetch('/api/otp/generate', {
+      const response = await fetch('/api/checkout/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -272,4 +272,4 @@ export default function OTPVerificationModal({
       </div>
     </div>
   );
-} 
+}

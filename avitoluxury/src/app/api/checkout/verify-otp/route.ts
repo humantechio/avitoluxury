@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/app/lib/db-connect';
 import OTP from '@/app/models/OTP';
-import axios from 'axios';
+import { verifyOTP } from '@/app/lib/2factor-utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,14 +43,11 @@ export async function POST(request: NextRequest) {
     }
     
     try {
-      // Verify OTP with 2Factor API
-      const verifyUrl = `https://2factor.in/API/V1/${apiKey}/SMS/VERIFY/${otpRecord.sessionId}/${otp}`;
-      console.log('Verifying OTP with URL:', verifyUrl);
+      // Use the verifyOTP function from 2factor-utils
+      const isVerified = await verifyOTP(otpRecord.sessionId, otp);
+      console.log('OTP verification result:', isVerified);
       
-      const response = await axios.get(verifyUrl);
-      console.log('2Factor verification response:', JSON.stringify(response.data));
-      
-      if (response.data && response.data.Status === 'Success') {
+      if (isVerified) {
         // Mark OTP as verified
         otpRecord.verified = true;
         await otpRecord.save();
@@ -86,4 +83,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-} 
+}
