@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/app/lib/db-connect';
 import OTP from '@/app/models/OTP';
-import { verifyOTP } from '@/app/lib/2factor-utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,51 +29,34 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    // Validate API key
-    const apiKey = process.env.TWOFACTOR_API_KEY;
-    if (!apiKey) {
-      console.error('2Factor API key not configured');
+    // Check if OTP matches
+    if (otpRecord.otp !== otp) {
       return NextResponse.json({ 
         success: false, 
-        error: 'SMS service not configured' 
-      }, { status: 500 });
+        error: 'Invalid OTP. Please try again.' 
+      }, { status: 400 });
     }
     
-    try {
-      // Use the verifyOTP function from 2factor-utils
-      const isVerified = await verifyOTP(otpRecord.sessionId, otp);
-      console.log('OTP verification result:', isVerified);
-      
-      if (isVerified) {
-        // Mark OTP as verified
-        otpRecord.verified = true;
-        await otpRecord.save();
-      } else {
-        return NextResponse.json({ 
-          success: false, 
-          error: 'Invalid OTP. Please try again.' 
-        }, { status: 400 });
-      }
-    } catch (error) {
-      console.error('Error verifying OTP with 2Factor:', error);
-      
-      // For development, if we have the OTP stored, verify it directly
-      if (process.env.NODE_ENV === 'development' && otpRecord.otp && otpRecord.otp === otp) {
-        console.log('[DEV] Verifying OTP locally');
-        otpRecord.verified = true;
-        await otpRecord.save();
-      } else {
-        return NextResponse.json({ 
-          success: false, 
-          error: 'Invalid OTP or verification failed. Please try again.' 
-        }, { status: 400 });
-      }
+    // Check if OTP is expired (handled by MongoDB TTL index, but double-check)
+    const now = new Date();
+    const otpCreatedAt = new Date(otpRecord.createdAt);
+    const diffMinutes = (now.getTime() - otpCreatedAt.getTime()) / (1000 * 60);
+    
+    if (diffMinutes > 10) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'OTP has expired. Please request a new OTP.' 
+      }, { status: 400 });
     }
+    
+    // Mark OTP as verified
+    otpRecord.isVerified = true;
+    await otpRecord.save();
     
     return NextResponse.json({
       success: true,
       message: 'OTP verified successfully',
-      isVerified: true
+      verified: true
     });
     
   } catch (error) {
@@ -84,4 +66,4 @@ export async function POST(request: NextRequest) {
       error: 'Failed to verify OTP. Please try again.' 
     }, { status: 500 });
   }
-}
+} 

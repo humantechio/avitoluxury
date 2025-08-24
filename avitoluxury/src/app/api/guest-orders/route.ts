@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     
     // Check if phone is verified with OTP
-    const otpRecord = await OTP.findOne({ phone, verified: true });
+    const otpRecord = await OTP.findOne({ phone, isVerified: true });
     if (!otpRecord) {
       return NextResponse.json({ 
         success: false, 
@@ -202,4 +202,4 @@ export async function GET(request: NextRequest) {
       error: 'Failed to fetch orders. Please try again.' 
     }, { status: 500 });
   }
-}
+} 
