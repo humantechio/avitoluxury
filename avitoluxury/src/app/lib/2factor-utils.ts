@@ -16,7 +16,8 @@ export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; 
     }
 
     // Format the API URL correctly with the API key
-    const apiUrl = `https://2factor.in/API/V1/${apiKey}/SMS/${phoneNumber}/AUTOGEN/OTP1`;
+    const templateName = process.env.TWOFACTOR_TEMPLATE_NAME2 || 'Avito OTP';
+    const apiUrl = `https://2factor.in/API/V1/${apiKey}/ADDON_SERVICES/SEND/OTP/${phoneNumber}/${otp}/${templateName}`;
 
     console.log('Sending OTP via 2factor to:', phoneNumber);
 
