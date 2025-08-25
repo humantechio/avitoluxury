@@ -219,7 +219,12 @@ export const sendOrderConfirmationSMS = async (
       message = `Hi ${customerName}, your order has been delivered!\nView your invoice: ${invoiceLink}\nThank you for shopping with AvitoLuxury!\nWe look forward to seeing you again.`;
     } else {
       // This is a payment confirmation (original behavior)
-      message = `"We have received your order successfully. Your order ID is ${trackingId}. Track your order from https://avitoluxury.in/order-tracking Thanks for choosing Avito Luxury. - Varnika Enterprises"`;
+      message = `We have received your order successfully. Your order ID is ${trackingId}.
+Track your order from https://avitoluxury.in/order-tracking
+
+Thanks for choosing Avito Luxury.
+
+- Varnika Enterprises`;
     }
     
     // Use 2Factor.in API to send SMS

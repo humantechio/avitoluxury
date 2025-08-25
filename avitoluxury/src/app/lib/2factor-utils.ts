@@ -29,7 +29,7 @@ export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; 
     if (response.data && response.data.Status === 'Success') {
       // For development purposes, extract OTP from Details if available (some test accounts show this)
       let otp = undefined;
-
+      
       // Some test accounts might return the OTP in the Details field
       if (response.data.Details && typeof response.data.Details === 'string' && response.data.Details.includes('OTP is')) {
         const match = response.data.Details.match(/OTP is (\d+)/);
@@ -38,13 +38,10 @@ export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; 
           console.log('Extracted OTP from response:', otp);
         }
       }
-
-      // The session ID should be in the Details field (this is the OTP session ID needed for verification)
-      const sessionId = response.data.Details;
-
-      return {
-        success: true,
-        sessionId: sessionId,
+      
+      return { 
+        success: true, 
+        sessionId: response.data.Details, 
         otp // This might be undefined for production accounts
       };
     } else {
@@ -64,7 +61,7 @@ export async function verifyOTP(sessionId: string, otpEntered: string): Promise<
     const apiKey = process.env.TWOFACTOR_API_KEY;
     if (!apiKey) {
       console.error('2Factor API key not configured. Please set TWOFACTOR_API_KEY in .env.local');
-      return { success: false, message: 'API key not configured' };
+      return { success: false, message: 'SMS service not configured' };
     }
 
     // Format the verification API URL
@@ -77,22 +74,15 @@ export async function verifyOTP(sessionId: string, otpEntered: string): Promise<
 
     console.log('2factor verification response:', JSON.stringify(response.data));
 
-    // Check if verification was successful
+    // Check if the verification was successful
     if (response.data && response.data.Status === 'Success') {
-      console.log('OTP verification successful');
       return { success: true, message: 'OTP verified successfully' };
     } else {
       console.error('OTP verification failed:', response.data);
-      return {
-        success: false,
-        message: response.data?.Details || 'OTP verification failed'
-      };
+      return { success: false, message: 'Invalid OTP. Please try again.' };
     }
   } catch (error) {
-    console.error('Error verifying OTP:', error);
-    return {
-      success: false,
-      message: 'Network error during OTP verification'
-    };
+    console.error('Error verifying OTP with 2factor:', error);
+    return { success: false, message: 'OTP verification failed. Please try again.' };
   }
-} 
+}
