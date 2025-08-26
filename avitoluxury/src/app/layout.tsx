@@ -5,6 +5,7 @@ import "./styles/cross-browser.css";
 import { AuthProvider } from "./components/AuthProvider";
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import Script from "next/script";
 
 // Import components dynamically with client-side only rendering
 const ClientLayout = dynamic(() => import('./components/ClientLayout'), { ssr: true });
