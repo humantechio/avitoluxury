@@ -62,7 +62,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <!-- Google tag (gtag.js) --> 
+        {/* Google tag (gtag.js) */} 
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17157980266"></script> 
         <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-17157980266'); </script>
       </head>
