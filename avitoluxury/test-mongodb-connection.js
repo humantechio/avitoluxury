@@ -1,6 +1,6 @@
 // Script to test MongoDB connection
 const mongoose = require('mongoose');
-require('dotenv').config({ path: '.env' });
+require('dotenv').config({ path: '.env.local' });
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

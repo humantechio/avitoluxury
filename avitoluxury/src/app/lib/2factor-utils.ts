@@ -52,37 +52,4 @@ export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; 
     console.error('Error sending OTP via 2factor:', error);
     return { success: false };
   }
-}
-
-// Verify OTP using 2factor API
-export async function verifyOTP(sessionId: string, otpEntered: string): Promise<{ success: boolean; message?: string }> {
-  try {
-    // Validate API key
-    const apiKey = process.env.TWOFACTOR_API_KEY;
-    if (!apiKey) {
-      console.error('2Factor API key not configured. Please set TWOFACTOR_API_KEY in .env.local');
-      return { success: false, message: 'SMS service not configured' };
-    }
-
-    // Format the verification API URL
-    const verifyUrl = `https://2factor.in/API/V1/${apiKey}/SMS/VERIFY/${sessionId}/${otpEntered}`;
-
-    console.log('Verifying OTP with 2factor API...');
-
-    // Send the verification request
-    const response = await axios.get(verifyUrl);
-
-    console.log('2factor verification response:', JSON.stringify(response.data));
-
-    // Check if the verification was successful
-    if (response.data && response.data.Status === 'Success') {
-      return { success: true, message: 'OTP verified successfully' };
-    } else {
-      console.error('OTP verification failed:', response.data);
-      return { success: false, message: 'Invalid OTP. Please try again.' };
-    }
-  } catch (error) {
-    console.error('Error verifying OTP with 2factor:', error);
-    return { success: false, message: 'OTP verification failed. Please try again.' };
-  }
-}
+} 
