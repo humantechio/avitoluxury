@@ -5,6 +5,7 @@ import "./styles/cross-browser.css";
 import { AuthProvider } from "./components/AuthProvider";
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import Script from "next/script";
 
 // Import components dynamically with client-side only rendering
 const ClientLayout = dynamic(() => import('./components/ClientLayout'), { ssr: true });
@@ -62,9 +63,16 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <!-- Google tag (gtag.js) --> 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17157980266"></script> 
-        <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-17157980266'); </script>
+       {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17157980266" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17157980266');
+          `}
+        </Script>
       </head>
       <body
         className={`${montserrat.variable} ${playfairDisplay.variable} antialiased font-sans`}
