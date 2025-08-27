@@ -14,10 +14,17 @@ export default function PublicInvoicePage() {
     const fetchInvoice = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/orders/${id}/invoice`);
+        // Try with public access first
+        let response = await fetch(`/api/orders/${id}/invoice?public=true`);
         
         if (!response.ok) {
-          throw new Error('Failed to load invoice');
+          // If public access fails, try authenticated access
+          response = await fetch(`/api/orders/${id}/invoice`);
+        }
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || 'Failed to load invoice');
         }
         
         const data = await response.json();
@@ -27,9 +34,9 @@ export default function PublicInvoicePage() {
         }
         
         setInvoice(data.invoice);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching invoice:', err);
-        setError('Failed to load invoice. Please try again later.');
+        setError(err.message || 'Failed to load invoice. Please try again later.');
       } finally {
         setLoading(false);
       }

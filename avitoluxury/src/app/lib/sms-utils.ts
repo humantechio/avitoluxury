@@ -1,6 +1,4 @@
 import { Twilio } from 'twilio';
-import axios from 'axios';
-import qs from 'querystring';
 
 // Create a Twilio client instance
 const createTwilioClient = () => {
@@ -111,7 +109,7 @@ export const verifyAdminSMS = async (phoneNumber: string, otp: string): Promise<
 // 2Factor.in SMS sending utility
 export const send2FactorSMS = async (
   phone: string,
-  message: string,
+  _message: string,
   orderData?: {
     transactionId: string;
     amount: number;
@@ -199,11 +197,7 @@ export const sendOrderConfirmationSMS = async (
   }
 ): Promise<boolean> => {
   try {
-    const { phone, trackingId, transactionId, totalAmount } = orderData;
-    
-    // Create a tracking link if not provided
-    const trackingLink = orderData.trackingLink || 
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'https://avitoluxury.in'}/order-tracking?tracking_id=${trackingId}`;
+    const { phone, trackingId } = orderData;
     
     // Get customer name or use default
     const customerName = orderData.customerName || 'Customer';

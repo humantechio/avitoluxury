@@ -16,8 +16,12 @@ export async function GET(
     // Get user ID from cookies
     const userId = await getUserIdFromCookies(request);
     
-    if (!userId) {
-      console.error('Invoice API: User not authenticated');
+    // Check if this is a public access request (via URL parameter)
+    const url = new URL(request.url);
+    const isPublic = url.searchParams.get('public') === 'true';
+    
+    if (!userId && !isPublic) {
+      console.error('Invoice API: User not authenticated and not public access');
       return NextResponse.json({ 
         success: false, 
         error: 'User not authenticated' 
@@ -28,20 +32,26 @@ export async function GET(
     
     // Create the query - for admin show any order, for regular users show only their orders
     let query = {};
-    if (userId === 'admin-bypass-user-id') {
-      // Admin can view any order
+    if (userId === 'admin-bypass-user-id' || isPublic) {
+      // Admin or public access can view any order
       if (mongoose.Types.ObjectId.isValid(id)) {
         query = { _id: new mongoose.Types.ObjectId(id) };
       } else {
-        query = { orderId: id };
+        query = { trackingId: id };
       }
-    } else {
+    } else if (userId) {
       // Regular users can only view their own orders
       if (mongoose.Types.ObjectId.isValid(id)) {
         query = { _id: new mongoose.Types.ObjectId(id), user: userId };
       } else {
-        query = { orderId: id, user: userId };
+        query = { trackingId: id, user: userId };
       }
+    } else {
+      // No user ID and not public - should not reach here due to earlier check
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Access denied' 
+      }, { status: 403 });
     }
     
     // Find the order
@@ -56,16 +66,16 @@ export async function GET(
     }
     
     // Check if order is delivered - only generate invoice for delivered orders
-    if (order.status !== 'Delivered' && userId !== 'admin-bypass-user-id') {
-      console.error('Invoice API: Order is not delivered yet');
+    if (order.status !== 'Delivered' && userId !== 'admin-bypass-user-id' && !isPublic) {
+      console.error('Invoice API: Order is not delivered yet, current status:', order.status);
       return NextResponse.json({ 
         success: false, 
-        error: 'Invoice is only available for delivered orders' 
+        error: `Invoice is only available for delivered orders. Current status: ${order.status}` 
       }, { status: 400 });
     }
     
     // Get order items and calculate totals if needed
-    const orderItems = order.items || order.orderItems || [];
+    const orderItems = order.items || [];
     let subtotal = order.itemsPrice || 0;
     
     if (subtotal === 0 && orderItems.length > 0) {
@@ -79,7 +89,7 @@ export async function GET(
     
     // Create invoice data
     const invoice = {
-      orderId: order.orderId || order._id.toString(),
+      orderId: order.trackingId || order._id.toString(),
       invoiceNumber: `INV-${order._id.toString().slice(-8)}`,
       date: order.createdAt,
       deliveryDate: order.deliveredAt || new Date(),
@@ -88,11 +98,11 @@ export async function GET(
         email: order.user?.email || 'Not provided',
         phone: order.shippingAddress?.phone || 'Not provided',
         address: {
-          line1: order.shippingAddress?.address,
-          city: order.shippingAddress?.city,
+          line1: order.shippingAddress?.address || 'Not provided',
+          city: order.shippingAddress?.city || 'Not provided',
           state: order.shippingAddress?.state || '',
-          postalCode: order.shippingAddress?.postalCode,
-          country: order.shippingAddress?.country
+          postalCode: order.shippingAddress?.postalCode || 'Not provided',
+          country: order.shippingAddress?.country || 'India'
         }
       },
       items: orderItems.map(item => ({
@@ -126,16 +136,20 @@ export async function GET(
 const getUserIdFromCookies = async (request: Request) => {
   try {
     const cookie = request.headers.get('cookie') || '';
+    console.log('Invoice API: Checking cookies for authentication');
+    
     const userDataCookieMatch = cookie.match(/userData=([^;]+)/);
     
     if (!userDataCookieMatch) {
+      console.log('Invoice API: No userData cookie found');
       return null;
     }
     
     const userData = JSON.parse(decodeURIComponent(userDataCookieMatch[1]));
+    console.log('Invoice API: User authenticated with ID:', userData.userId);
     return userData.userId;
   } catch (err) {
-    console.error('Error parsing user data from cookie:', err);
+    console.error('Invoice API: Error parsing user data from cookie:', err);
     return null;
   }
 }; 
