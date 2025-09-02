@@ -28,7 +28,7 @@ export const formatPhoneNumber = (phoneNumber: string): string => {
 // Send OTP to admin phone via 2Factor.in
 export const sendAdminSMS = async (phoneNumber: string): Promise<boolean> => {
   try {
-    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
+    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11e0-a562-0200cd936042";
     const formattedPhone = formatPhoneNumber(phoneNumber);
     
     // Generate OTP
@@ -67,7 +67,7 @@ export const sendAdminSMS = async (phoneNumber: string): Promise<boolean> => {
 // Verify OTP code using 2Factor.in
 export const verifyAdminSMS = async (phoneNumber: string, otp: string, sessionId: string): Promise<boolean> => {
   try {
-    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
+    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11e0-a562-0200cd936042";
     const formattedPhone = formatPhoneNumber(phoneNumber);
     
     // Make the API call to verify OTP
@@ -103,7 +103,7 @@ export const send2FactorSMS = async (
   }
 ): Promise<boolean> => {
   try {
-    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
+    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11e0-a562-0200cd936042";
     const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVITOS';
     const templateName = process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito Orderrr';
     
@@ -189,11 +189,9 @@ export const sendOrderConfirmationSMS = async (
     
     if (invoiceLink) {
       // This is a delivery notification
-      // This is a delivery notification
       message = `Hello, Your order has been delivered successfully! View your invoice: https://avitoluxury.in/invoice/${invoiceLink}. Thank you for shopping with Avito Luxury - Varnika Enterprises.`;
     } else {
-      // This is a payment confirmation (original behavior)
-      // This is a payment confirmation (original behavior)
+      // This is a payment confirmation
       message = `Dear Customer,
 
 We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
@@ -204,7 +202,7 @@ Thanks for choosing Avito Luxury.
     }
     
     // Use 2Factor.in API to send SMS
-    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
+    const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11e0-a562-0200cd936042";
     const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVITOS';
     
     // Format phone number (remove country code if present)
@@ -216,7 +214,7 @@ Thanks for choosing Avito Luxury.
     // Determine which template to use based on whether this is a delivery notification
     const templateName = invoiceLink ? 
       (process.env.TWO_FACTOR_DELIVERY_TEMPLATE_NAME || 'Avito delivery') : 
-      (process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito Order');
+      (process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito Orderrr');
     
     console.log('Using template name:', templateName);
     
@@ -233,11 +231,11 @@ Thanks for choosing Avito Luxury.
         
         if (invoiceLink) {
           // Delivery notification template variables
-          formData.append('var1', customerName);
+          formData.append('var1', 'Customer');
           formData.append('var2', invoiceLink);
         } else {
           // Order confirmation template variables
-          formData.append('var1', customerName);
+          formData.append('var1', 'Customer');
           formData.append('var2', totalAmount.toString());
           formData.append('var3', trackingId);
           formData.append('var4', 'https://avitoluxury.in/track-order');
