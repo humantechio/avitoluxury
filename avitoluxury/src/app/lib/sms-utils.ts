@@ -120,7 +120,7 @@ export const send2FactorSMS = async (
   try {
     const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
     const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVITOS';
-    const templateName = process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito orderrr';
+    const templateName = process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito Orderrr';
     
     // Format phone number (remove country code if present)
     const formattedPhone = phone.startsWith('+91') ? phone.substring(3) : phone;
@@ -216,6 +216,7 @@ export const sendOrderConfirmationSMS = async (
       message = `Dear Customer,
       We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
 Thanks for choosing Avito Luxury.
+
 -Varnika Enterprises`;
     }
     
