@@ -120,7 +120,7 @@ export const send2FactorSMS = async (
   try {
     const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
     const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVITOS';
-    const templateName = process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito Orderrr';
+    const templateName = process.env.TWO_FACTOR_TEMPLATE_NAME || 'Avito orderrr';
     
     // Format phone number (remove country code if present)
     const formattedPhone = phone.startsWith('+91') ? phone.substring(3) : phone;
@@ -210,17 +210,18 @@ export const sendOrderConfirmationSMS = async (
     
     if (invoiceLink) {
       // This is a delivery notification
-      message = `Hi ${customerName}, your order has been delivered!\nView your invoice: ${invoiceLink}\nThank you for shopping with AvitoLuxury!\nWe look forward to seeing you again.`;
+      message = `Hi Customer, your order has been delivered!\nView your invoice: ${invoiceLink}\nThank you for shopping with AvitoLuxury!\nWe look forward to seeing you again.`;
     } else {
       // This is a payment confirmation (original behavior)
-      message = `"We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
+      message = `Dear Customer,
+      We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
 Thanks for choosing Avito Luxury.
-"`;
+-Varnika Enterprises`;
     }
     
     // Use 2Factor.in API to send SMS
     const apiKey = process.env.TWO_FACTOR_API_KEY || "d4b37114-5f02-11f0-a562-0200cd936042";
-    const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVTLUX';
+    const sender = process.env.TWO_FACTOR_SENDER_ID || 'AVITOS';
     
     // Format phone number (remove country code if present)
     const formattedPhone = phone.startsWith('+91') ? phone.substring(3) : phone;
