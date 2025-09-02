@@ -210,7 +210,7 @@ export const sendOrderConfirmationSMS = async (
     
     if (invoiceLink) {
       // This is a delivery notification
-      message = `Hello, Your order has been delivered successfully! View your invoice: https://avitoluxury.in/invoice/${invoiceLink}. Thank you for shopping with Avito Luxury-Varnika Enterprises.`;
+      message = `Hello, Your order has been delivered successfully! View your invoice: https://avitoluxury.in/invoice/${invoiceLink}. Thank you for shopping with Avito Luxury - Varnika Enterprises.`;
     } else {
       // This is a payment confirmation (original behavior)
       message = `Dear Customer,  
