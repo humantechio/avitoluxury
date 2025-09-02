@@ -213,8 +213,9 @@ export const sendOrderConfirmationSMS = async (
       message = `Hi Customer, your order has been delivered!\nView your invoice: ${invoiceLink}\nThank you for shopping with AvitoLuxury!\nWe look forward to seeing you again.`;
     } else {
       // This is a payment confirmation (original behavior)
-      message = `Dear Customer,
-      We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
+      message = `Dear Customer,  
+
+We have received your order successfully for Rs. ${totalAmount}. Your order ID is ${trackingId}. You can track your order here: https://avitoluxury.in/order-tracking.
 Thanks for choosing Avito Luxury.
 
 -Varnika Enterprises`;
