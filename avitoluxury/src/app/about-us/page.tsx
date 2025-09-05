@@ -32,7 +32,7 @@ export default function AboutUsPage() {
         {
           id: "track-order",
           question: "How can I track my order?",
-          answer: "Once your order is shipped, you'll receive a tracking link via email and SMS. You can also track it from the \"My Orders\" section on your account."
+          answer: "Once your order is shipped, you'll receive a tracking link via email and SMS."
         }
       ]
     },
@@ -47,7 +47,7 @@ export default function AboutUsPage() {
         {
           id: "return-process",
           question: "How do I return a product?",
-          answer: "Visit the \"My Orders\" section, select the item, and click on \"Return.\" Our team will arrange a pickup if eligible."
+          answer: "Visit the \"Contact Us\" section, select the Refund & Return options.  Our team will arrange a pickup if eligible."
         },
         {
           id: "refund-time",
@@ -84,20 +84,11 @@ export default function AboutUsPage() {
     {
       title: "Account & Support",
       items: [
-        {
-          id: "account-required",
-          question: "Do I need to create an account to place an order?",
-          answer: "No, you can check out as a guest. However, creating an account allows you to track orders and access offers."
-        },
-        {
-          id: "forgot-password",
-          question: "I forgot my password. How do I reset it?",
-          answer: "Click on \"Forgot Password\" on the login page and follow the instructions to reset it via email."
-        },
+
         {
           id: "contact-support",
           question: "How can I contact customer support?",
-          answer: "You can reach us at support@avitostore.com or via WhatsApp at +919928200900. We are available Mon-Sat, 10 AM to 6 PM."
+          answer: "You can reach us at avitoscents@gmail.com or via WhatsApp at +919928200900. We are available Mon-Sat, 10 AM to 6 PM."
         }
       ]
     },
@@ -116,21 +107,7 @@ export default function AboutUsPage() {
         }
       ]
     },
-    {
-      title: "Discounts & Promotions",
-      items: [
-        {
-          id: "apply-promo",
-          question: "How do I apply a promo code?",
-          answer: "You can enter the promo code on the checkout page before making the payment."
-        },
-        {
-          id: "promo-not-working",
-          question: "Why is my discount code not working?",
-          answer: "Make sure it hasn't expired and check if your cart meets the minimum order value."
-        }
-      ]
-    },
+    
     {
       title: "Refund policy",
       items: [
@@ -218,12 +195,14 @@ export default function AboutUsPage() {
               <p className="text-gray-600 mb-6">
                 Explore current opportunities and discover what it's like to be part of the A V I T O   S C E N T S family.
               </p>
-              <Link 
-                href="/careers"
+              <a 
+                href="https://wa.me/919928200900?text=Hi%2C%20I%27m%20interested%20in%20career%20opportunities%20at%20AVITO%20Perfume"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800"
               >
-                View Open Positions <FiArrowRight className="ml-2" />
-              </Link>
+                Connect for Open Positions <FiArrowRight className="ml-2" />
+              </a>
             </div>
             <div>
               <img 
