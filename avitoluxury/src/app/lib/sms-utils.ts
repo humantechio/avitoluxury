@@ -432,7 +432,7 @@ export const sendOrderDeliveredSMS = async (
 export const testSMSConnection = async (phone: string): Promise<boolean> => {
   try {
     const apiKey = process.env.TWO_FACTOR_API_KEY || process.env.TWOFACTOR_API_KEY;
-
+    
     if (!apiKey) {
       console.error('API key not found');
       return false;
