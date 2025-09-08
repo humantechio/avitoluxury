@@ -465,3 +465,4 @@ export const testSMSConnection = async (phone: string): Promise<boolean> => {
     console.error('Error testing SMS connection:', error);
     return false;
   }
+}
