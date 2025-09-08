@@ -213,6 +213,48 @@ export default function ProductDetailPage() {
     // Optionally redirect to cart or show confirmation
     
   };
+
+  // Handle buy now - add to cart and redirect to checkout
+  const handleBuyNow = () => {
+    if (!product) return;
+    
+    // Get existing cart from localStorage
+    let cart = [];
+    try {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+      }
+    } catch (error) {
+      console.error('Error parsing cart:', error);
+    }
+    
+    // Check if product is already in cart
+    const existingItemIndex = cart.findIndex((item: any) => item.id === product._id);
+    
+    if (existingItemIndex >= 0) {
+      // If product exists, increase quantity
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      // Otherwise add new item
+      cart.push({
+        id: product._id,
+        name: product.name,
+        price: product.discountedPrice > 0 ? product.discountedPrice : product.price,
+        image: product.images[0]?.url || '',
+        quantity: quantity
+      });
+    }
+    
+    // Save updated cart
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Trigger storage event for other components
+    window.dispatchEvent(new Event('storage'));
+    
+    // Redirect to checkout page
+    router.push('/checkout');
+  };
   
   // Calculate discount percentage
   const discount = product && product.discountedPrice > 0 && product.price > 0
@@ -518,7 +560,7 @@ export default function ProductDetailPage() {
                 
                 {/* Buy Now button */}
                 <button 
-                  onClick={handleAddToCart}
+                  onClick={handleBuyNow}
                   className="border border-black py-3 px-6 hover:bg-gray-100 flex-1"
                 >
                   Buy Now

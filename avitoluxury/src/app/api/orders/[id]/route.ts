@@ -289,16 +289,12 @@ export async function PUT(
         const invoiceLink = `${baseUrl}/invoice/${order._id}`;
         
         // Import the SMS utility
-        const { sendOrderConfirmationSMS } = await import('@/app/lib/sms-utils');
+        const { sendOrderDeliveredSMS } = await import('@/app/lib/sms-utils');
         
         // Send the delivery confirmation SMS
-        await sendOrderConfirmationSMS({
+        await sendOrderDeliveredSMS({
           phone,
-          customerName,
-          trackingId: order.trackingId,
-          transactionId: order.paymentResult?.id || order._id.toString(),
-          totalAmount: order.totalPrice,
-          invoiceLink
+          trackingId: order.trackingId
         });
         
         console.log(`Delivery confirmation SMS sent to ${phone}`);

@@ -65,7 +65,7 @@ export default function CheckoutSummaryPage() {
         setSubtotal(total);
         
         // Calculate shipping cost (free for orders above ₹500)
-        setShippingCost(total >= 500 ? 0 : 75);
+        setShippingCost(total >= 500 ? 0 : 1);
       } else {
         // Redirect to cart page if cart is empty
         router.push('/cart');

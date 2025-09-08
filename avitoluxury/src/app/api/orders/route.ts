@@ -505,16 +505,12 @@ export async function PATCH(request: Request) {
         const invoiceLink = `${baseUrl}/invoice/${order._id}`;
         
         // Import the SMS utility
-        const { sendOrderConfirmationSMS } = await import('@/app/lib/sms-utils');
+        const { sendOrderDeliveredSMS } = await import('@/app/lib/sms-utils');
         
         // Send the delivery confirmation SMS
-        await sendOrderConfirmationSMS({
+        await sendOrderDeliveredSMS({
           phone,
-          customerName,
-          trackingId: existingOrder.trackingId,
-          transactionId: existingOrder.paymentResult?.id || existingOrder._id.toString(),
-          totalAmount: existingOrder.totalPrice,
-          invoiceLink
+          trackingId: existingOrder.trackingId
         });
         
         console.log(`Delivery confirmation SMS sent to ${phone}`);
