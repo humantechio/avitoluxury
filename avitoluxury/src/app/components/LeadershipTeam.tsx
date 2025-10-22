@@ -30,14 +30,6 @@ export default function LeadershipTeam() {
         // Fallback to hardcoded data if API fails
         setLeaders([
           {
-            _id: '1',
-            name: 'Mr. Arvind Soni',
-            title: 'Founder & Visionary',
-            position: 'founder',
-            image: '/ARVIND SONI.jpeg.jpg',
-            bio: "Founder's Vision: Mr. Arvind Soni\nAVITO Perfume is the brainchild of Mr. Arvind Soni, a trailblazer in the fragrance industry with over 18 years of expertise and a legacy of perfume craftsmanship dating back to 1983. His passion for creating world-class fragrances has established AVITO as a beacon of elegance and innovation in the world of perfumery.\n\nExcellence in Fragrance Craftsmanship\nMr. Soni's mastery lies in crafting unique, long-lasting perfumes inspired by the sophistication of French scent artistry. Specializing in high-concentration perfume oils, he creates international-standard fragrances that blend elegant freshness with enduring essence, ensuring every scent leaves a lasting impression.\n\nComprehensive Business Expertise\nWith deep knowledge in retail, finance, and supply chain management, Mr. Soni ensures AVITO Perfume delivers exceptional quality at every stage. His holistic approach guarantees a seamless journey from sourcing premium ingredients to delivering luxurious fragrances to customers across India.\n\nCrafted for India, Inspired Globally\nAVITO Perfume is proud to serve India-wide, with scents thoughtfully designed to suit the country's diverse weather conditions and evolving trends. Our collections cater to all—men, women, and unisex preferences—offering affordable luxury without compromising on quality. Each fragrance is crafted to resonate with Indian sensibilities while maintaining a global standard of elegance.\n\nOur Commitment\nUnder Mr. Soni's visionary leadership, AVITO Perfume is dedicated to creating timeless, inclusive fragrances that celebrate individuality. Whether it's a bold masculine note, a delicate feminine essence, or a versatile unisex scent, our perfumes are designed to be accessible, enduring, and trendsetting for every Indian on affordable price with high quality ingredients.\n\nOur Legacy\nSince 1983, AVITO Perfume has carried forward a legacy of craftsmanship and innovation. With a commitment to affordability, diversity, and quality, we invite you to experience AVITO Perfume—where global artistry meets the heart of India in every bottle."
-          },
-          {
             _id: '2',
             name: 'Mr. Naresh Dadhich',
             title: 'Managing Director & CEO',
@@ -85,20 +77,19 @@ export default function LeadershipTeam() {
 
   return (
     <div className="mt-20 mb-16">
-  <h2 className="text-2xl font-bold mb-8 text-center">Our Leadership Team</h2>
-  
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-    {leaders.map((leader) => (
-      <LeadershipCard
-        key={leader._id}
-        name={leader.name}
-        title={leader.title}
-        image={leader.image}
-        bio={leader.bio}
-      />
-    ))}
-  </div>
-</div>
+      <h2 className="text-2xl font-bold mb-8 text-center">Our Leadership Team</h2>
 
+      <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+        {leaders.map((leader) => (
+          <LeadershipCard
+            key={leader._id}
+            name={leader.name}
+            title={leader.title}
+            image={leader.image}
+            bio={leader.bio}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

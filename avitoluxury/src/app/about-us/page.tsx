@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -148,25 +147,18 @@ export default function AboutUsPage() {
         <div className="max-w-4xl mx-auto">
           {/* Our Story Content */}
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
-              <div>
-                <h2 className="text-2xl font-bold mb-4">How It All Began</h2>
+            <div className="text-center mb-16">
+              <h2 className="text-2xl font-bold mb-4">How It All Began</h2>
+              <div className="max-w-3xl mx-auto">
                 <p className="text-gray-600 mb-4">
                   AVITO Perfume was created to make luxury fragrances accessible to everyone in India. The goal was simple—high-quality, long-lasting scents at a fair price.
                 </p>
                 <p className="text-gray-600 mb-4">
-                Led by founder Mr. Arvind Soni, with years of industry experience, AVITO blends global fragrance trends with Indian tastes and climate.
+                Led by founder Mr. Arvind Kumar, with years of industry experience, AVITO blends global fragrance trends with Indian tastes and climate.
                 </p>
                 <p className="text-gray-600">
                 Today, AVITO offers a diverse range of perfumes for all genders—crafted with care, inspired by the world, and made for everyday elegance.
                 </p>
-              </div>
-              <div>
-                <img 
-                  src="/ARVIND SONI.jpeg.jpg" 
-                  alt="A V I T O   S C E N T S Founder"
-                  className="w-full h-auto rounded-lg shadow-md"
-                />
               </div>
             </div>
             
@@ -193,7 +185,7 @@ export default function AboutUsPage() {
                 We're always looking for passionate individuals to join our growing team. If you share our love for fragrances and our commitment to quality and sustainability, we'd love to hear from you.
               </p>
               <p className="text-gray-600 mb-6">
-                Explore current opportunities and discover what it's like to be part of the A V I T O   S C E N T S family.
+                Explore current opportunities and discover what it's like to be part of the A V I T O   S C E N T S family.
               </p>
               <a 
                 href="https://wa.me/919928200900?text=Hi%2C%20I%27m%20interested%20in%20career%20opportunities%20at%20AVITO%20Perfume"
