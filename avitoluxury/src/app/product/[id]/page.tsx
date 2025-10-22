@@ -190,8 +190,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     const cartItem = {
       _id: product._id,
       name: product.name,
-      price: product.price,
-      discountedPrice: product.comparePrice && product.comparePrice > product.price ? product.price : undefined,
+      price: product.comparePrice && product.comparePrice > 0 && product.comparePrice < product.price ? product.comparePrice : product.price,
+      discountedPrice: product.comparePrice && product.comparePrice > 0 && product.comparePrice < product.price ? product.comparePrice : undefined,
       quantity: quantity,
       image: product.mainImage || (product.images && product.images.length > 0 ? product.images[0] : '/placeholder-image.jpg'),
     };
@@ -433,7 +433,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             <AddToCartButton
               productId={product._id}
               productName={product.name}
-              productPrice={product.price}
+              productPrice={product.comparePrice}
               productImage={product.mainImage || (product.images && product.images.length > 0 ? product.images[0] : '')}
               className="flex-1 px-4 py-3 bg-black text-white hover:bg-gray-800 flex items-center justify-center"
             />

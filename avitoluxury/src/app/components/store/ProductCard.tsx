@@ -139,6 +139,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       if (existingItemIndex >= 0) {
         // If product exists, increase quantity
         cart[existingItemIndex].quantity += 1;
+        // Also update the price in case it changed (ensure we use the correct discounted price)
+        cart[existingItemIndex].price = product.discountedPrice > 0 ? product.discountedPrice : product.price;
       } else {
         // Otherwise add new item
         cart.push({

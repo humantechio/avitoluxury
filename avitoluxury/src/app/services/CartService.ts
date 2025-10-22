@@ -56,8 +56,10 @@ export const CartService = {
     );
     
     if (existingItemIndex >= 0) {
-      // Update quantity if item exists
+      // Update quantity and price if item exists (in case price changed)
       cart[existingItemIndex].quantity += item.quantity;
+      // Always use the price from the new item being added (this ensures correct pricing)
+      cart[existingItemIndex].price = item.price;
     } else {
       // Add new item
       cart.push({

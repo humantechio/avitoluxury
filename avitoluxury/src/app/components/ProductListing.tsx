@@ -49,9 +49,8 @@ const ProductCardWrapper = ({ product }: { product: Product }) => {
     inStock: product.inStock !== undefined ? product.inStock : true
   };
   
-  // Check if product has a valid discount - comparePrice is the original higher price
+  // Check if product has a valid discount - comparePrice is the discounted price (lower than original price)
   const hasDiscount = 
-    (formattedProduct.comparePrice && formattedProduct.comparePrice > formattedProduct.price) || 
     (formattedProduct.comparePrice && formattedProduct.comparePrice > 0 && formattedProduct.comparePrice < formattedProduct.price);
   
   // Add to cart handler
@@ -72,13 +71,15 @@ const ProductCardWrapper = ({ product }: { product: Product }) => {
       if (existingItemIndex >= 0) {
         // Update quantity if product already in cart
         cart[existingItemIndex].quantity += 1;
+        // Also update the price in case it changed (ensure we use the correct discounted price)
+        cart[existingItemIndex].price = formattedProduct.comparePrice && formattedProduct.comparePrice > 0 && formattedProduct.comparePrice < formattedProduct.price ? formattedProduct.comparePrice : formattedProduct.price;
       } else {
         // Add new product to cart
         cart.push({
           _id: formattedProduct._id,
           id: formattedProduct._id,
           name: formattedProduct.name,
-          price: formattedProduct.price,
+          price: formattedProduct.comparePrice && formattedProduct.comparePrice > 0 && formattedProduct.comparePrice < formattedProduct.price ? formattedProduct.comparePrice : formattedProduct.price,
           comparePrice: formattedProduct.comparePrice,
           image: formattedProduct.mainImage,
           quantity: 1
@@ -100,9 +101,10 @@ const ProductCardWrapper = ({ product }: { product: Product }) => {
     }
   };
   
-  const displayPrice = formattedProduct.price;
-  const displayOriginalPrice = formattedProduct.comparePrice || 
-    (formattedProduct.comparePrice ? formattedProduct.price : undefined);
+  // displayPrice should be the price to show (discounted if available, otherwise original)
+  const displayPrice = formattedProduct.comparePrice && formattedProduct.comparePrice > 0 && formattedProduct.comparePrice < formattedProduct.price ? formattedProduct.comparePrice : formattedProduct.price;
+  // displayOriginalPrice should be the original higher price (for strikethrough)
+  const displayOriginalPrice = formattedProduct.price;
   
   return (
     <div className="h-full flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-gray-300">
@@ -136,12 +138,10 @@ const ProductCardWrapper = ({ product }: { product: Product }) => {
           <div className="flex items-baseline">
             {hasDiscount ? (
               <>
-                <span className="text-sm xs:text-base font-bold text-red-600">₹{displayOriginalPrice}</span>
-                {displayOriginalPrice && (
-                  <span className="text-xs text-gray-400 line-through ml-2">
-                    MRP ₹{displayPrice}
-                  </span>
-                )}
+                <span className="text-sm xs:text-base font-bold text-red-600">₹{displayPrice}</span>
+                <span className="text-xs text-gray-400 line-through ml-2">
+                  MRP ₹{displayOriginalPrice}
+                </span>
               </>
             ) : (
               <span className="text-sm xs:text-base font-bold">₹{displayPrice}</span>
