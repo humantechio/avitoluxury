@@ -31,8 +31,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize cart service
   useEffect(() => {
-    // Just ensure cart is loaded from localStorage
-    const cartItems = CartService.getCartItems();
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      // Just ensure cart is loaded from localStorage
+      const cartItems = CartService.getCartItems();
+    }
     setLoading(false);
   }, []);
 

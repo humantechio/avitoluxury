@@ -77,27 +77,29 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
         }
         
         // For non-authenticated users or if server cart is empty/fails
-        const savedCart = localStorage.getItem('cart') || '[]';
-        let parsedCart = [];
-        
-        try {
-          parsedCart = JSON.parse(savedCart);
-          if (!Array.isArray(parsedCart)) {
+        if (typeof window !== 'undefined') {
+          const savedCart = localStorage.getItem('cart') || '[]';
+          let parsedCart = [];
+          
+          try {
+            parsedCart = JSON.parse(savedCart);
+            if (!Array.isArray(parsedCart)) {
+              parsedCart = [];
+            }
+          } catch (parseError) {
+            console.error('Error parsing cart data:', parseError);
             parsedCart = [];
           }
-        } catch (parseError) {
-          console.error('Error parsing cart data:', parseError);
-          parsedCart = [];
+          
+          setCartItems(parsedCart);
+          
+          // Calculate subtotal
+          const total = parsedCart.reduce(
+            (sum: number, item: CartItem) => sum + item.price * item.quantity,
+            0
+          );
+          setSubtotal(total);
         }
-        
-        setCartItems(parsedCart);
-        
-        // Calculate subtotal
-        const total = parsedCart.reduce(
-          (sum: number, item: CartItem) => sum + item.price * item.quantity,
-          0
-        );
-        setSubtotal(total);
         
       } catch (error) {
         console.error('Error in fetchCart:', error);
@@ -164,6 +166,8 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
   
   // Helper function to update localStorage cart
   const updateLocalStorage = (id: string, newQuantity: number) => {
+    if (typeof window === 'undefined') return;
+    
     try {
       const savedCart = localStorage.getItem('cart') || '[]';
       let cart = JSON.parse(savedCart);
@@ -246,6 +250,8 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
   
   // Helper function to remove item from localStorage
   const removeFromLocalStorage = (id: string) => {
+    if (typeof window === 'undefined') return;
+    
     try {
       const savedCart = localStorage.getItem('cart') || '[]';
       let cart = JSON.parse(savedCart);

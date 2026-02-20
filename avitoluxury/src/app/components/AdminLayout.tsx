@@ -13,6 +13,8 @@ interface AdminLayoutProps {
 
 // Add this debug function
 function checkAdminAuthState() {
+  if (typeof window === 'undefined') return;
+  
   console.log('Checking admin auth state...');
   
   // Check localStorage tokens

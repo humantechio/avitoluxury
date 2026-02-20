@@ -296,17 +296,17 @@ export default function SearchPage() {
             
             {/* SEO-friendly header */}
             <div className="mb-12 text-center">
-              <h1 className="text-4xl md:text-5xl font-serif font-bold mb-3 text-black">
+              <h1 className="text-4xl md:text-5xl font-serif font-bold mb-3 text-gray-900">
                 Search Results{query ? ` for "${query}"` : ''}
               </h1>
-              <div className="w-24 h-1 bg-[#d4af37] mx-auto mb-4"></div>
+              <div className="w-24 h-1 bg-black mx-auto mb-4"></div>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Find your perfect fragrance from our exclusive collection of premium perfumes.
               </p>
             </div>
             
             {/* Search and Filter Toggle */}
-            <div className="mb-10 flex flex-col md:flex-row gap-4 justify-between items-center bg-[#30231d]/50 p-4 rounded-lg border border-[#b8860b]/20">
+            <div className="mb-10 flex flex-col md:flex-row gap-4 justify-between items-center bg-gray-50 p-4 rounded-lg border border-gray-200">
               <div className="w-full md:w-2/3 relative">
                 <form onSubmit={handleSearchSubmit}>
                   <input
@@ -314,9 +314,9 @@ export default function SearchPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search by name, category, gender or size..."
-                    className="w-full px-4 py-3 pl-10 rounded-md bg-[#322920] border border-[#b8860b]/30 focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37] focus:outline-none text-white"
+                    className="w-full px-4 py-3 pl-10 rounded-md bg-white border border-gray-300 focus:border-black focus:ring-1 focus:ring-black focus:outline-none text-gray-900"
                   />
-                  <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                  <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black">
                     <FiSearch />
                   </button>
                 </form>
@@ -325,7 +325,7 @@ export default function SearchPage() {
               
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#b8860b] to-[#d4af37] hover:from-[#a67c00] hover:to-[#b8860b] rounded-md transition duration-300 shadow-md"
+                className="flex items-center gap-2 px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-md transition duration-300 shadow-md"
               >
                 <FiFilter />
                 <span>{isFilterOpen ? 'Hide Filters' : 'Show Filters'}</span>
@@ -335,30 +335,30 @@ export default function SearchPage() {
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Filters Panel */}
               <div className={`lg:w-1/4 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
-                <div className="bg-gradient-to-b from-[#30231d] to-[#30231d]/80 border border-[#b8860b]/30 rounded-lg p-4 mb-6 shadow-lg sticky top-24">
-                  <div className="flex justify-between items-center mb-5 pb-2 border-b border-[#b8860b]/30">
-                    <h3 className="font-semibold text-lg text-[#d4af37]">Filters</h3>
+                <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-lg sticky top-24">
+                  <div className="flex justify-between items-center mb-5 pb-2 border-b border-gray-200">
+                    <h3 className="font-semibold text-lg text-gray-900">Filters</h3>
                     <button 
                       onClick={resetFilters}
-                      className="text-sm text-[#b8860b] hover:text-[#d4af37] transition-colors"
+                      className="text-sm text-gray-600 hover:text-black transition-colors"
                     >
                       Reset All
                     </button>
                   </div>
                   
                   {/* Price Range */}
-                  <div className="border-t border-[#b8860b]/20 py-4">
+                  <div className="border-t border-gray-200 py-4">
                     <div 
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setIsPriceOpen(!isPriceOpen)}
                     >
-                      <h4 className="font-medium text-[#d4af37]">Price Range</h4>
-                      {isPriceOpen ? <FiChevronUp className="text-[#d4af37]" /> : <FiChevronDown className="text-[#d4af37]" />}
+                      <h4 className="font-medium text-gray-900">Price Range</h4>
+                      {isPriceOpen ? <FiChevronUp className="text-gray-700" /> : <FiChevronDown className="text-gray-700" />}
                     </div>
                     
                     {isPriceOpen && (
                       <div className="mt-4">
-                        <div className="flex justify-between mb-2 text-sm">
+                        <div className="flex justify-between mb-2 text-sm text-gray-700">
                           <span>₹{priceRange[0]}</span>
                           <span>₹{priceRange[1]}</span>
                         </div>
@@ -368,20 +368,20 @@ export default function SearchPage() {
                           max={Math.max(...products.map(p => p.price)) || 5000}
                           value={priceRange[1]}
                           onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                          className="w-full h-2 bg-[#b8860b]/30 rounded-lg appearance-none cursor-pointer accent-[#d4af37]"
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
                         />
                       </div>
                     )}
                   </div>
                   
                   {/* Categories */}
-                  <div className="border-t border-[#b8860b]/20 py-4">
+                  <div className="border-t border-gray-200 py-4">
                     <div 
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setIsCategoryOpen(!isCategoryOpen)}
                     >
-                      <h4 className="font-medium text-[#d4af37]">Categories</h4>
-                      {isCategoryOpen ? <FiChevronUp className="text-[#d4af37]" /> : <FiChevronDown className="text-[#d4af37]" />}
+                      <h4 className="font-medium text-gray-900">Categories</h4>
+                      {isCategoryOpen ? <FiChevronUp className="text-gray-700" /> : <FiChevronDown className="text-gray-700" />}
                     </div>
                     
                     {isCategoryOpen && (
@@ -393,9 +393,9 @@ export default function SearchPage() {
                               id={`cat-${category}`}
                               checked={selectedCategories.includes(category)}
                               onChange={() => handleCategoryToggle(category)}
-                              className="w-4 h-4 rounded border-[#b8860b] text-[#d4af37] focus:ring-[#b8860b]"
+                              className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
                             />
-                            <label htmlFor={`cat-${category}`} className="ml-2 text-sm">
+                            <label htmlFor={`cat-${category}`} className="ml-2 text-sm text-gray-700">
                               {category}
                             </label>
                           </div>
@@ -405,13 +405,13 @@ export default function SearchPage() {
                   </div>
                   
                   {/* Gender */}
-                  <div className="border-t border-[#b8860b]/20 py-4">
+                  <div className="border-t border-gray-200 py-4">
                     <div 
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setIsGenderOpen(!isGenderOpen)}
                     >
-                      <h4 className="font-medium text-[#d4af37]">Gender</h4>
-                      {isGenderOpen ? <FiChevronUp className="text-[#d4af37]" /> : <FiChevronDown className="text-[#d4af37]" />}
+                      <h4 className="font-medium text-gray-900">Gender</h4>
+                      {isGenderOpen ? <FiChevronUp className="text-gray-700" /> : <FiChevronDown className="text-gray-700" />}
                     </div>
                     
                     {isGenderOpen && (
@@ -423,9 +423,9 @@ export default function SearchPage() {
                               id={`gender-${gender}`}
                               checked={selectedGender.includes(gender)}
                               onChange={() => handleGenderToggle(gender)}
-                              className="w-4 h-4 rounded border-[#b8860b] text-[#d4af37] focus:ring-[#b8860b]"
+                              className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
                             />
-                            <label htmlFor={`gender-${gender}`} className="ml-2 text-sm capitalize">
+                            <label htmlFor={`gender-${gender}`} className="ml-2 text-sm capitalize text-gray-700">
                               {gender}
                             </label>
                           </div>
@@ -435,13 +435,13 @@ export default function SearchPage() {
                   </div>
                   
                   {/* ML / Size */}
-                  <div className="border-t border-[#b8860b]/20 py-4">
+                  <div className="border-t border-gray-200 py-4">
                     <div 
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setIsMLOpen(!isMLOpen)}
                     >
-                      <h4 className="font-medium text-[#d4af37]">Size (ML)</h4>
-                      {isMLOpen ? <FiChevronUp className="text-[#d4af37]" /> : <FiChevronDown className="text-[#d4af37]" />}
+                      <h4 className="font-medium text-gray-900">Size (ML)</h4>
+                      {isMLOpen ? <FiChevronUp className="text-gray-700" /> : <FiChevronDown className="text-gray-700" />}
                     </div>
                     
                     {isMLOpen && (
@@ -453,9 +453,9 @@ export default function SearchPage() {
                               id={`ml-${ml}`}
                               checked={selectedML.includes(ml)}
                               onChange={() => handleMLToggle(ml)}
-                              className="w-4 h-4 rounded border-[#b8860b] text-[#d4af37] focus:ring-[#b8860b]"
+                              className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
                             />
-                            <label htmlFor={`ml-${ml}`} className="ml-2 text-sm">
+                            <label htmlFor={`ml-${ml}`} className="ml-2 text-sm text-gray-700">
                               {ml} ML
                             </label>
                           </div>
@@ -469,17 +469,17 @@ export default function SearchPage() {
               {/* Products Grid */}
               <div className="lg:w-3/4">
                 {loading ? (
-                  <div className="flex justify-center items-center h-64 bg-[#30231d]/30 rounded-lg border border-[#b8860b]/20">
+                  <div className="flex justify-center items-center h-64 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="text-center">
-                      <div className="w-12 h-12 border-4 border-[#b8860b] border-t-[#d4af37] rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-xl text-black">Loading fragrances...</p>
+                      <div className="w-12 h-12 border-4 border-gray-300 border-t-black rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-xl text-gray-900">Loading fragrances...</p>
                     </div>
                   </div>
                 ) : error ? (
-                  <div className="bg-red-900/20 border border-red-400 text-white px-6 py-5 rounded-lg mb-6" role="alert">
+                  <div className="bg-red-50 border border-red-300 text-red-800 px-6 py-5 rounded-lg mb-6" role="alert">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                       </div>
@@ -492,9 +492,9 @@ export default function SearchPage() {
                 ) : (
                   <>
                     {/* Results count */}
-                    <div className="flex justify-between items-center mb-6 pb-2 border-b border-[#b8860b]/20">
+                    <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-200">
                       <p className="text-gray-600">
-                        Showing <span className="text-[#d4af37] font-medium">{filteredProducts.length}</span> {filteredProducts.length === 1 ? 'product' : 'products'}
+                        Showing <span className="text-black font-medium">{filteredProducts.length}</span> {filteredProducts.length === 1 ? 'product' : 'products'}
                       </p>
                     </div>
                     
@@ -502,22 +502,20 @@ export default function SearchPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredProducts.map((product) => (
                           <div key={product._id} className="h-full">
-                            <div className="h-full flex flex-col bg-[#30231d] border border-[#b8860b]/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-[#d4af37]/50">
-                              <ProductCard product={product} />
-                            </div>
+                            <ProductCard product={product} />
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-16 bg-[#30231d]/50 rounded-lg border border-[#b8860b]/20">
-                        <svg className="h-16 w-16 mx-auto mb-4 text-[#b8860b]/80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="text-center py-16 bg-gray-50 rounded-lg border border-gray-200">
+                        <svg className="h-16 w-16 mx-auto mb-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                         </svg>
-                        <p className="text-xl text-black mb-2">No products match your search criteria.</p>
+                        <p className="text-xl text-gray-900 mb-2">No products match your search criteria.</p>
                         <p className="text-gray-600 mb-5">Try different keywords or filter options.</p>
                         <button 
                           onClick={resetFilters}
-                          className="px-6 py-2 bg-gradient-to-r from-[#b8860b] to-[#d4af37] hover:from-[#a67c00] hover:to-[#b8860b] rounded transition duration-300 shadow-md"
+                          className="px-6 py-2 bg-black hover:bg-gray-800 text-white rounded transition duration-300 shadow-md"
                         >
                           Reset Filters
                         </button>

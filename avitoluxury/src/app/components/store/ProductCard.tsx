@@ -43,14 +43,16 @@ export default function ProductCard({ product }: ProductCardProps) {
     if (isAuthenticated) {
       checkWishlistStatus();
     } else {
-      // For non-authenticated users, use localStorage
-      try {
-        const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-        const isInWishlist = wishlist.some((item: any) => item.productId === product._id);
-        setIsWishlisted(isInWishlist);
-      } catch (error) {
-        // Silent error handling
-        setIsWishlisted(false);
+      // For non-authenticated users, use localStorage (only on client)
+      if (typeof window !== 'undefined') {
+        try {
+          const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+          const isInWishlist = wishlist.some((item: any) => item.productId === product._id);
+          setIsWishlisted(isInWishlist);
+        } catch (error) {
+          // Silent error handling
+          setIsWishlisted(false);
+        }
       }
     }
   }, [product._id, isAuthenticated]);
@@ -117,6 +119,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   
   // Helper function to add item to localStorage cart
   const addToLocalStorageCart = (showAlert = true) => {
+    if (typeof window === 'undefined') return;
+    
     try {
       // Get existing cart or initialize empty array
       const savedCart = localStorage.getItem('cart') || '[]';

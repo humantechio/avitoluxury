@@ -48,8 +48,8 @@ export default function WhatsAppPopup({ phoneNumber, message = 'Hello, I have a 
       return;
     }
     
-    // Check if the popup has been closed in this session
-    const popupClosed = localStorage.getItem('whatsapp_popup_closed');
+    // Check if the popup has been closed in this session (only on client)
+    const popupClosed = typeof window !== 'undefined' ? localStorage.getItem('whatsapp_popup_closed') : null;
     
     if (!popupClosed) {
       // Show popup after 5 seconds
@@ -64,7 +64,9 @@ export default function WhatsAppPopup({ phoneNumber, message = 'Hello, I have a 
   const closePopup = () => {
     setIsVisible(false);
     // Store in localStorage that popup was closed (persists until browser is closed)
-    localStorage.setItem('whatsapp_popup_closed', 'true');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('whatsapp_popup_closed', 'true');
+    }
   };
   
   const openWhatsApp = () => {

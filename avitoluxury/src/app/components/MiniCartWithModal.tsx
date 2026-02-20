@@ -38,7 +38,7 @@ export default function MiniCartWithModal({ isOpen, onClose }: MiniCartWithModal
   // Fetch cart items from localStorage
   useEffect(() => {
     const fetchCartItems = () => {
-      if (isOpen) {
+      if (isOpen && typeof window !== 'undefined') {
         try {
           setLoading(true);
           const storedCart = localStorage.getItem('cart');
@@ -127,6 +127,8 @@ export default function MiniCartWithModal({ isOpen, onClose }: MiniCartWithModal
   };
   
   const removeItem = (itemId: string) => {
+    if (typeof window === 'undefined') return;
+    
     // Get the current cart from localStorage to ensure we're working with the latest data
     const storedCart = localStorage.getItem('cart');
     let currentCart: CartItem[] = [];

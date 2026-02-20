@@ -51,8 +51,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   
   // Show the button after scrolling down
   useEffect(() => {
-    // Check if tooltip was closed
-    const tooltipClosed = localStorage.getItem('whatsapp_tooltip_closed');
+    // Check if tooltip was closed (only on client)
+    const tooltipClosed = typeof window !== 'undefined' ? localStorage.getItem('whatsapp_tooltip_closed') : null;
     
     const handleScroll = () => {
       if (window.scrollY > 300 && isHomePage && !miniCartOpen && !tooltipClosed) {
@@ -95,7 +95,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const closeTooltip = () => {
     setShowTooltip(false);
     // Store in localStorage that tooltip was closed (persists until page refresh)
-    localStorage.setItem('whatsapp_tooltip_closed', 'true');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('whatsapp_tooltip_closed', 'true');
+    }
   };
   
   return (

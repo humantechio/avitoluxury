@@ -1,15 +1,13 @@
+import './lib/localStorage-polyfill';
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import "./styles/cross-browser.css";
 import { AuthProvider } from "./components/AuthProvider";
 import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import Script from "next/script";
-
-// Import components dynamically with client-side only rendering
-const ClientLayout = dynamic(() => import('./components/ClientLayout'), { ssr: true });
-const WhatsAppPopupWrapper = dynamic(() => import('./components/WhatsAppPopupWrapper'));
+import ClientLayout from './components/ClientLayout';
+import WhatsAppPopupWrapper from './components/WhatsAppPopupWrapper';
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,12 +35,7 @@ export const metadata: Metadata = {
     icon: '/avito3-12.png',
     apple: '/avito3-12.png',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: '#ffffff',
+
   formatDetection: {
     telephone: true,
     date: false,
@@ -50,6 +43,13 @@ export const metadata: Metadata = {
     email: true,
     url: false,
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({

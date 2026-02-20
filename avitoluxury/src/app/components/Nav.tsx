@@ -132,6 +132,8 @@ export default function Nav() {
   // Get cart items count from localStorage
   useEffect(() => {
     const getCartCount = () => {
+      if (typeof window === 'undefined') return;
+      
       try {
         const storedCart = localStorage.getItem('cart');
         if (storedCart) {
@@ -210,6 +212,8 @@ export default function Nav() {
     window.addEventListener('open-minicart', handleOpenMiniCart);
     
     const checkForCheckoutFlag = () => {
+      if (typeof window === 'undefined') return;
+      
       try {
         const checkoutComplete = localStorage.getItem('checkout_complete');
         if (checkoutComplete === 'true') {
@@ -299,7 +303,8 @@ export default function Nav() {
   
   // Handle category search
   const handleCategorySearch = (category: string) => {
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}&type=category&category=${encodeURIComponent(category)}`);
+    const query = searchQuery.trim() || '';
+    router.push(`/search?q=${encodeURIComponent(query)}&type=category&category=${encodeURIComponent(category)}`);
     setSearchOpen(false);
     setSearchQuery('');
   };
