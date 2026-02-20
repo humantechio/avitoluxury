@@ -5,7 +5,8 @@ import { useParams } from 'next/navigation';
 import { FiDownload, FiPrinter, FiShare2, FiLoader } from 'react-icons/fi';
 
 export default function PublicInvoicePage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id as string;
   const [invoice, setInvoice] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

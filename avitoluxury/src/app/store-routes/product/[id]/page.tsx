@@ -60,7 +60,7 @@ export default function ProductDetailPage() {
       UserActivityTracker.trackProductView(
         product._id,
         window.location.pathname,
-        user?.userId
+        (user as any)?.userId
       );
     }
   }, [product, loading, user]);

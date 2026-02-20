@@ -18,40 +18,38 @@ export async function GET(request: NextRequest) {
     // Build filter object
     const filter: any = {};
     
-    // Text search with query
-    if (query) {
-      if (type === 'all') {
-        // Search in multiple fields
+    // Handle category-based search
+    if (type === 'category' && category) {
+      // Handle category mapping
+      if (category === 'perfumes') {
+        filter.productType = 'Perfumes';
+      } else if (category === 'attars') {
+        filter.productType = 'Aesthetic Attars';
+      } else if (category === 'fresheners') {
+        filter.productType = 'Air Fresheners';
+      } else if (category === 'waxfume') {
+        filter.productType = 'Waxfume (Solid)';
+      } else {
+        filter.category = category;
+      }
+      
+      // Add text search within the category if query exists
+      if (query) {
         filter.$or = [
           { name: { $regex: query, $options: 'i' } },
-          { description: { $regex: query, $options: 'i' } },
-          { category: { $regex: query, $options: 'i' } },
-          { productType: { $regex: query, $options: 'i' } },
-          { subCategories: { $regex: query, $options: 'i' } }
+          { description: { $regex: query, $options: 'i' } }
         ];
-      } else if (type === 'category') {
-        // Search by specific category
-        if (category) {
-          // Handle category mapping
-          if (category === 'perfumes') {
-            filter.productType = 'Perfumes';
-          } else if (category === 'attars') {
-            filter.productType = 'Aesthetic Attars';
-          } else if (category === 'fresheners') {
-            filter.productType = 'Air Fresheners';
-          } else if (category === 'waxfume') {
-            filter.productType = 'Waxfume (Solid)';
-          } else {
-            filter.category = category;
-          }
-          
-          // Add text search within the category
-          filter.$or = [
-            { name: { $regex: query, $options: 'i' } },
-            { description: { $regex: query, $options: 'i' } }
-          ];
-        }
       }
+    } else if (query) {
+      // Text search with query for 'all' type
+      // Search in multiple fields
+      filter.$or = [
+        { name: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } },
+        { category: { $regex: query, $options: 'i' } },
+        { productType: { $regex: query, $options: 'i' } },
+        { subCategories: { $regex: query, $options: 'i' } }
+      ];
     }
     
     // Additional filters

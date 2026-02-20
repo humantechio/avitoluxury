@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 import { getUserFromToken } from './server-auth';
 
 export async function getSession() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
   
   if (!token) {

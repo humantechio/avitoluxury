@@ -63,7 +63,7 @@ export default function AddToCartButton({
         productName,
         productPrice,
         quantity,
-        user?.userId
+        (user as any)?.userId
       );
       
       // Show mini cart

@@ -44,9 +44,7 @@ export default function SearchPage() {
   // Filter states
   const [searchQuery, setSearchQuery] = useState(query);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    categoryParam ? [categoryParam] : []
-  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedGender, setSelectedGender] = useState<string[]>([]);
   const [selectedML, setSelectedML] = useState<number[]>([]);
   
@@ -297,11 +295,25 @@ export default function SearchPage() {
             {/* SEO-friendly header */}
             <div className="mb-12 text-center">
               <h1 className="text-4xl md:text-5xl font-serif font-bold mb-3 text-gray-900">
-                Search Results{query ? ` for "${query}"` : ''}
+                {type === 'category' && categoryParam && !query ? (
+                  <>
+                    {categoryParam === 'perfumes' && 'Perfumes'}
+                    {categoryParam === 'attars' && 'Aesthetic Attars'}
+                    {categoryParam === 'fresheners' && 'Air Fresheners'}
+                    {categoryParam === 'waxfume' && 'Waxfume'}
+                    {!['perfumes', 'attars', 'fresheners', 'waxfume'].includes(categoryParam) && categoryParam}
+                  </>
+                ) : (
+                  <>Search Results{query ? ` for "${query}"` : ''}</>
+                )}
               </h1>
               <div className="w-24 h-1 bg-black mx-auto mb-4"></div>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Find your perfect fragrance from our exclusive collection of premium perfumes.
+                {type === 'category' && categoryParam && !query ? (
+                  `Browse our collection of ${categoryParam === 'perfumes' ? 'premium perfumes' : categoryParam === 'attars' ? 'aesthetic attars' : categoryParam === 'fresheners' ? 'air fresheners' : categoryParam}`
+                ) : (
+                  'Find your perfect fragrance from our exclusive collection of premium perfumes.'
+                )}
               </p>
             </div>
             

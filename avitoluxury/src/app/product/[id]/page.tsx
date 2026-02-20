@@ -433,7 +433,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             <AddToCartButton
               productId={product._id}
               productName={product.name}
-              productPrice={product.comparePrice}
+              productPrice={product.comparePrice || product.price}
               productImage={product.mainImage || (product.images && product.images.length > 0 ? product.images[0] : '')}
               className="flex-1 px-4 py-3 bg-black text-white hover:bg-gray-800 flex items-center justify-center"
             />
