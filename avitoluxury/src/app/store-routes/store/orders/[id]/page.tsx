@@ -39,74 +39,48 @@ interface Order {
   paymentMethod: string;
 }
 
-export default function OrderDetailsPage({ params }: { params: { id: string } }) {
+export default function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const [orderId, setOrderId] = useState<string>('');
+  
+  // Unwrap params
+  useEffect(() => {
+    params.then(p => setOrderId(p.id));
+  }, [params]);
   
   useEffect(() => {
     // Redirect to login if not authenticated
     if (!isAuthenticated) {
-      router.push('/login?redirect=/store/orders/' + params.id);
+      router.push('/login?redirect=/store/orders/' + orderId);
       return;
     }
     
-    // Fetch order details (mock data for now)
-    const fetchOrderDetails = () => {
+    if (!orderId) return;
+    
+    // Fetch order details from API
+    const fetchOrderDetails = async () => {
       setIsLoading(true);
-      
-      // Simulate API call with timeout
-      setTimeout(() => {
-        const mockOrder: Order = {
-          id: params.id,
-          date: '2023-10-15T14:30:00Z',
-          status: params.id === 'ORD-1001' ? 'Delivered' : 
-                 params.id === 'ORD-1003' ? 'Shipped' : 'Processing',
-          subtotal: 2999,
-          shipping: 99,
-          tax: 200,
-          total: 3298,
-          trackingId: params.id === 'ORD-1001' ? 'TRK7890123' : 
-                     params.id === 'ORD-1003' ? 'TRK7891234' : undefined,
-          trackingUrl: params.id === 'ORD-1001' || params.id === 'ORD-1003' ? 
-                      'https://example.com/track' : undefined,
-          items: [
-            {
-              id: 'PROD-001',
-              name: 'Mystic Ocean Perfume',
-              price: 1499,
-              quantity: 1,
-              image: 'https://placehold.co/300x400/272420/FFFFFF/png?text=Mystic+Ocean'
-            },
-            {
-              id: 'PROD-002',
-              name: 'Elegant Rose Perfume',
-              price: 1500,
-              quantity: 1,
-              image: 'https://placehold.co/300x400/272420/FFFFFF/png?text=Elegant+Rose'
-            }
-          ],
-          address: {
-            name: 'John Doe',
-            line1: '123 Main Street',
-            line2: 'Apt 4B',
-            city: 'Mumbai',
-            state: 'Maharashtra',
-            postal_code: '400001',
-            country: 'India',
-            phone: '+91 98765 43210'
-          },
-          paymentMethod: 'Credit Card (ending in 4567)'
-        };
+      try {
+        const response = await fetch(`/api/orders/${orderId}`);
+        const data = await response.json();
         
-        setOrder(mockOrder);
+        if (data.success && data.order) {
+          setOrder(data.order);
+        } else {
+          console.error('Failed to fetch order');
+        }
+      } catch (error) {
+        console.error('Error fetching order:', error);
+      } finally {
         setIsLoading(false);
-      }, 800);
+      }
     };
     
     fetchOrderDetails();
-  }, [isAuthenticated, params.id, router]);
+  }, [isAuthenticated, orderId, router]);
   
   // Format date to more readable format
   const formatDate = (dateString: string) => {

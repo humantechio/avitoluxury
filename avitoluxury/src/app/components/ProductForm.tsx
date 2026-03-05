@@ -44,7 +44,7 @@ interface ProductMedia {
 }
 
 interface ProductFormProps {
-  initialData?: Partial<ProductFormValues & { media?: ProductMedia[] }>;
+  initialData?: Partial<ProductFormValues & { _id?: string; media?: ProductMedia[] }>;
   isEditing?: boolean;
   onSuccess?: () => void;
 }
@@ -545,9 +545,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
             </label>
             <div className="mt-2 space-y-2 max-h-48 overflow-y-auto border border-gray-300 rounded-md p-3">
               {((selectedProductType && selectedCategory) || (isEditing && initialData.productType && initialData.category)) && 
-                subCategoryOptions[(selectedProductType || initialData.productType) as keyof typeof subCategoryOptions]?.[
+                (subCategoryOptions[(selectedProductType || initialData.productType) as keyof typeof subCategoryOptions]?.[
                   (selectedCategory || initialData.category) as keyof (typeof subCategoryOptions)[keyof typeof subCategoryOptions]
-                ]?.map(subCat => (
+                ] as string[] | undefined)?.map(subCat => (
                   <div key={subCat} className="flex items-center">
                     <input
                       type="checkbox"

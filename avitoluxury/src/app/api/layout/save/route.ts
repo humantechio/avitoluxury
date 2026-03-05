@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Mock function to simulate saving to database
-const mockSaveLayoutToDatabase = async (layoutData: any) => {
-  // In a real application, this would save to a database
-  // For now, just log the data
-  console.log('Layout data saved:', layoutData);
-  return { success: true };
-};
+import connectMongoDB from '@/app/lib/mongodb';
 
 // POST to save layout data
 export async function POST(request: NextRequest) {
@@ -21,8 +14,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    // Save layout data
-    await mockSaveLayoutToDatabase(layoutData);
+    // Save layout data to database
+    await connectMongoDB();
+    // Implement actual database save logic here
     
     return NextResponse.json({ 
       success: true,

@@ -19,6 +19,7 @@ interface Product {
   images: { url: string }[];
   rating?: number;
   giftTags?: string[];
+  productType: string;
 }
 
 export default function GiftingPage() {
@@ -34,100 +35,20 @@ export default function GiftingPage() {
   ];
   
   useEffect(() => {
-    // In a real app, fetch gift products from API
-    // For now, use mock data
-    const mockGiftProducts = [
-      {
-        _id: 'gift-1',
-        name: 'Royal Oud Gift Box',
-        description: 'Luxurious royal oud fragrance with wooden gift box and accessories',
-        price: 3999,
-        discountedPrice: 3499,
-        category: 'Luxury',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Royal+Oud+Gift' }],
-        rating: 4.9,
-        giftTags: ['luxury', 'him', 'bestseller']
-      },
-      {
-        _id: 'gift-2',
-        name: 'Floral Dreams Gift Set',
-        description: 'Beautiful floral fragrance with matching body lotion in elegant packaging',
-        price: 2499,
-        discountedPrice: 0,
-        category: 'For Her',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Floral+Dreams+Set' }],
-        rating: 4.7,
-        giftTags: ['her', 'bestseller']
-      },
-      {
-        _id: 'gift-3',
-        name: 'Mini Collection Box',
-        description: 'Set of 3 mini fragrances perfect for trying different scents',
-        price: 999,
-        discountedPrice: 899,
-        category: 'Budget',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Mini+Collection' }],
-        rating: 4.5,
-        giftTags: ['budget', 'unisex']
-      },
-      {
-        _id: 'gift-4',
-        name: 'Gentleman\'s Collection',
-        description: 'Sophisticated woody scent with matching aftershave balm',
-        price: 2999,
-        discountedPrice: 2499,
-        category: 'For Him',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Gentlemans+Collection' }],
-        rating: 4.8,
-        giftTags: ['him']
-      },
-      {
-        _id: 'gift-5',
-        name: 'Diamond Edition Perfume',
-        description: 'Our most exclusive fragrance in a crystal bottle with satin case',
-        price: 5999,
-        discountedPrice: 0,
-        category: 'Luxury',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Diamond+Edition' }],
-        rating: 5.0,
-        giftTags: ['luxury', 'her']
-      },
-      {
-        _id: 'gift-6',
-        name: 'Essential Oil Roll-On Set',
-        description: 'Set of 5 essential oil roll-ons in a travel-friendly case',
-        price: 899,
-        discountedPrice: 799,
-        category: 'Budget',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Essential+Oils+Set' }],
-        rating: 4.5,
-        giftTags: ['budget', 'unisex']
-      },
-      {
-        _id: 'gift-7',
-        name: 'Luxury Gift Card',
-        description: 'Let them choose their perfect scent with our premium gift card',
-        price: 2000,
-        discountedPrice: 0,
-        category: 'Gift Cards',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Gift+Card' }],
-        rating: 4.9,
-        giftTags: ['giftcard', 'luxury']
-      },
-      {
-        _id: 'gift-8',
-        name: 'Signature Scent Duo',
-        description: 'Our bestselling his and hers fragrance pair in special packaging',
-        price: 4999,
-        discountedPrice: 3999,
-        category: 'Luxury',
-        images: [{ url: 'https://placehold.co/400x400/272420/FFFFFF?text=Signature+Duo' }],
-        rating: 4.8,
-        giftTags: ['luxury', 'him', 'her']
+    const fetchGiftProducts = async () => {
+      try {
+        const response = await fetch('/api/products?giftable=true');
+        const data = await response.json();
+        
+        if (data.success && data.products) {
+          setGiftProducts(data.products);
+        }
+      } catch (error) {
+        console.error('Error fetching gift products:', error);
       }
-    ];
+    };
     
-    setGiftProducts(mockGiftProducts);
+    fetchGiftProducts();
   }, []);
   
   // Filter products based on selected category

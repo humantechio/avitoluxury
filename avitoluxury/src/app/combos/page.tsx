@@ -28,111 +28,22 @@ export default function CombosPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // In a real application, fetch combo products from an API
-    // For now, use mock data
-    const mockCombos = [
-      {
-        _id: 'combo-1',
-        name: 'His & Hers Collection',
-        description: 'Perfect pair of complementary fragrances for couples',
-        originalPrice: 3698,
-        comboPrice: 2999,
-        savings: 699,
-        savingsPercent: 19,
-        image: 'https://placehold.co/800x500/272420/FFFFFF?text=His+and+Hers+Collection',
-        includes: [
-          {
-            name: 'Royal Oud for Him',
-            price: 1899,
-            size: '100ml'
-          },
-          {
-            name: 'Golden Rose for Her',
-            price: 1799,
-            size: '100ml'
-          }
-        ]
-      },
-      {
-        _id: 'combo-2',
-        name: 'Office Essentials',
-        description: 'Professional fragrances perfect for your workplace',
-        originalPrice: 3099,
-        comboPrice: 2499,
-        savings: 600,
-        savingsPercent: 19,
-        image: 'https://placehold.co/800x500/272420/FFFFFF?text=Office+Essentials',
-        includes: [
-          {
-            name: 'Business Casual Cologne',
-            price: 1699,
-            size: '50ml'
-          },
-          {
-            name: 'Subtle Essence Perfume',
-            price: 1400,
-            size: '50ml'
-          }
-        ]
-      },
-      {
-        _id: 'combo-3',
-        name: 'Summer Party Pack',
-        description: 'Refreshing fragrances for hot summer days and nights',
-        originalPrice: 4497,
-        comboPrice: 3499,
-        savings: 998,
-        savingsPercent: 22,
-        image: 'https://placehold.co/800x500/272420/FFFFFF?text=Summer+Party+Pack',
-        includes: [
-          {
-            name: 'Citrus Splash',
-            price: 1499,
-            size: '100ml'
-          },
-          {
-            name: 'Ocean Breeze',
-            price: 1699,
-            size: '100ml'
-          },
-          {
-            name: 'Tropical Nights',
-            price: 1299,
-            size: '50ml'
-          }
-        ]
-      },
-      {
-        _id: 'combo-4',
-        name: 'Luxury Gift Set',
-        description: 'Premium fragrance with matching body lotion and shower gel',
-        originalPrice: 2997,
-        comboPrice: 2299,
-        savings: 698,
-        savingsPercent: 23,
-        image: 'https://placehold.co/800x500/272420/FFFFFF?text=Luxury+Gift+Set',
-        includes: [
-          {
-            name: 'Midnight Elixir Perfume',
-            price: 1999,
-            size: '50ml'
-          },
-          {
-            name: 'Midnight Elixir Body Lotion',
-            price: 599,
-            size: '200ml'
-          },
-          {
-            name: 'Midnight Elixir Shower Gel',
-            price: 399,
-            size: '200ml'
-          }
-        ]
+    const fetchCombos = async () => {
+      try {
+        const response = await fetch('/api/products?productType=Combos');
+        const data = await response.json();
+        
+        if (data.success && data.products) {
+          setCombos(data.products);
+        }
+      } catch (error) {
+        console.error('Error fetching combos:', error);
+      } finally {
+        setLoading(false);
       }
-    ];
+    };
     
-    setCombos(mockCombos);
-    setLoading(false);
+    fetchCombos();
   }, []);
 
   return (

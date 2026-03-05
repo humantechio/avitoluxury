@@ -28,7 +28,7 @@ interface Product {
   bulletPoints?: string[];
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
@@ -42,15 +42,23 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const [zoomImageUrl, setZoomImageUrl] = useState('');
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [productId, setProductId] = useState<string>('');
+
+  // Unwrap params
+  useEffect(() => {
+    params.then(p => setProductId(p.id));
+  }, [params]);
 
   // Fetch product data
   useEffect(() => {
+    if (!productId) return;
+    
     async function fetchProduct() {
       try {
         setLoading(true);
         
         // Fetch the product from the API
-        const response = await fetch(`/api/products/${params.id}`);
+        const response = await fetch(`/api/products/${productId}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch product');
@@ -75,7 +83,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     }
     
     fetchProduct();
-  }, [params.id]);
+  }, [productId]);
 
   // Fetch related products
   const fetchRelatedProducts = async (productType: string) => {
@@ -93,7 +101,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         console.log("Related products API response:", data.products.length, "products found");
         // Filter out the current product and limit to 8 products
         const filtered = data.products
-          .filter((p: any) => p._id !== params.id)
+          .filter((p: any) => p._id !== productId)
           .slice(0, 8);
         
         console.log("Filtered related products:", filtered.length, "products after filtering");
@@ -129,7 +137,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         console.log("Category related products API response:", data.products.length, "products found");
         // Filter out the current product and limit to 8 products
         const filtered = data.products
-          .filter((p: any) => p._id !== params.id)
+          .filter((p: any) => p._id !== productId)
           .slice(0, 8);
         
         console.log("Filtered category related products:", filtered.length, "products after filtering");
@@ -163,7 +171,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         console.log("Random products API response:", data.products.length, "products found");
         // Filter out the current product and limit to 8 products
         const filtered = data.products
-          .filter((p: any) => p._id !== params.id)
+          .filter((p: any) => p._id !== productId)
           .slice(0, 8);
         
         console.log("Filtered random products:", filtered.length, "products after filtering");

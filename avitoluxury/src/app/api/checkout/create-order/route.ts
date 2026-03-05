@@ -55,12 +55,12 @@ export async function POST(request: NextRequest) {
     // Create order items with product references
     const orderItems = await Promise.all(cartItems.map(async (item: any) => {
       // Find product in database to get reference
-      const product = await Product.findById(item._id);
+      const product = await Product.findById(item._id) as any;
       
       if (!product) {
         console.log('Checkout API: Product not found by ID:', item._id, 'for item:', item.name);
         // Try to find by name as fallback
-        const productByName = await Product.findOne({ name: item.name });
+        const productByName = await Product.findOne({ name: item.name }) as any;
         if (productByName) {
           console.log('Checkout API: Found product by name:', productByName.name);
           return {

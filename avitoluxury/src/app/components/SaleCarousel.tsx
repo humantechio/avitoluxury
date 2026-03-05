@@ -123,41 +123,10 @@ export default function SaleCarousel() {
     return () => clearInterval(timer);
   }, [products, currentIndex]);
   
-  // Mock data in case no products with discount are found
-  const mockProducts: Product[] = [
-    {
-      _id: 'mock1',
-      name: 'Wild Escape',
-      description: 'Citrus | Musk',
-      price: convertToRupees(1699),
-      discountedPrice: convertToRupees(1299),
-      discountPercentage: 23.5,
-      images: [{ url: '/perfume-placeholder.jpg' }]
-    },
-    {
-      _id: 'mock2',
-      name: 'Baked Vanilla',
-      description: 'Vanilla | Gourmand',
-      price: convertToRupees(1699),
-      discountedPrice: convertToRupees(1299),
-      discountPercentage: 23.5,
-      images: [{ url: '/perfume-placeholder.jpg' }]
-    },
-    {
-      _id: 'mock3',
-      name: 'Devil\'s Berry',
-      description: 'Dark Berry',
-      price: convertToRupees(1699),
-      discountedPrice: convertToRupees(1299),
-      discountPercentage: 23.5,
-      images: [{ url: '/perfume-placeholder.jpg' }]
-    }
-  ];
+  // Use products from database
+  const displayProducts = products.length > 0 ? products : [];
   
-  // Use mock data if no products found or loading
-  const displayProducts = products.length > 0 ? products : mockProducts;
-  
-  if (loading && displayProducts.length === 0) {
+  if (loading || displayProducts.length === 0) {
     return (
       <div className="w-full h-96 bg-gray-100 flex items-center justify-center">
         <div className="animate-pulse text-gray-500 text-lg">Loading fragrances...</div>

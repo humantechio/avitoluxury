@@ -5,16 +5,16 @@
 
 // Only run on server side
 if (typeof window === 'undefined') {
-  // Create a mock localStorage for SSR
-  const mockStorage: Record<string, string> = {};
+  // Create a polyfill for SSR - this is necessary for Next.js SSR
+  const storage: Record<string, string> = {};
   
   (global as any).localStorage = {
-    getItem: (key: string) => mockStorage[key] || null,
-    setItem: (key: string, value: string) => { mockStorage[key] = value; },
-    removeItem: (key: string) => { delete mockStorage[key]; },
-    clear: () => { Object.keys(mockStorage).forEach(key => delete mockStorage[key]); },
-    key: (index: number) => Object.keys(mockStorage)[index] || null,
-    get length() { return Object.keys(mockStorage).length; }
+    getItem: (key: string) => storage[key] || null,
+    setItem: (key: string, value: string) => { storage[key] = value; },
+    removeItem: (key: string) => { delete storage[key]; },
+    clear: () => { Object.keys(storage).forEach(key => delete storage[key]); },
+    key: (index: number) => Object.keys(storage)[index] || null,
+    get length() { return Object.keys(storage).length; }
   };
 }
 

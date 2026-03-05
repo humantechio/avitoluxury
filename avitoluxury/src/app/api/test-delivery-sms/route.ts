@@ -37,8 +37,7 @@ export async function POST(request: NextRequest) {
       customerName: customerName || 'Customer',
       trackingId,
       transactionId,
-      totalAmount,
-      invoiceLink
+      totalAmount
     });
     
     if (result) {

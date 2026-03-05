@@ -1,16 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+    // Enable type checking during build
+    ignoreBuildErrors: false,
   },
   images: {
     remotePatterns: [
@@ -47,19 +39,8 @@ const nextConfig = {
     optimizeCss: true,
   },
   serverExternalPackages: [],
-  // Handle Node.js modules in webpack
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Don't resolve 'fs' module on the client to prevent this error
-      config.resolve.fallback = {
-        fs: false,
-        path: false,
-        os: false,
-        crypto: false,
-      };
-    }
-    return config;
-  },
+  // Turbopack configuration (empty to silence warning)
+  turbopack: {},
   async redirects() {
     // Basic redirects that apply in all environments
     const redirects = [

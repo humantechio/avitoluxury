@@ -57,10 +57,10 @@ type OrderDocument = {
 // GET order by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     console.log('Order API: Fetching order with ID:', id);
     
     // Get user ID from cookies
@@ -200,11 +200,11 @@ const getUserIdFromCookies = async (request: Request) => {
 // Update order status
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userId = await getUserIdFromCookies(request);
-    const { id } = params;
+    const { id } = await params;
     
     // For order status updates, we might need admin privileges
     const cookieStore = await cookies();

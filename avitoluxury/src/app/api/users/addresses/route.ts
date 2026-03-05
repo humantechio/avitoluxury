@@ -1,6 +1,5 @@
 import mongoose, { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
-import { decrypt } from '../../../lib/auth-exports';
 import { getSession } from '../../../lib/server-auth-exports';
 import User from '../../../models/User';
 import connectMongoDB from '../../../lib/mongodb';

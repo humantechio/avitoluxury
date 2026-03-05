@@ -50,11 +50,11 @@ export async function POST(request: NextRequest) {
     // Process items with complete product details
     const processedItems = await Promise.all(items.map(async (item: any) => {
       // Check if product exists and get current price and details
-      const product = await Product.findById(item.product);
+      const product = await Product.findById(item.product) as any;
       if (!product) {
         console.log('Guest Order API: Product not found by ID:', item.product, 'for item:', item.name);
         // Try to find by name as fallback
-        const productByName = await Product.findOne({ name: item.name });
+        const productByName = await Product.findOne({ name: item.name }) as any;
         if (productByName) {
           console.log('Guest Order API: Found product by name:', productByName.name);
           // Use the found product

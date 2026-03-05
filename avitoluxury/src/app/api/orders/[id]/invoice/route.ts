@@ -7,10 +7,10 @@ import { cookies } from 'next/headers';
 // Function to generate invoice for delivered orders
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     console.log('Invoice API: Generating invoice for order ID:', id);
     
     // Get user ID from cookies
@@ -79,7 +79,7 @@ export async function GET(
     let subtotal = order.itemsPrice || 0;
     
     if (subtotal === 0 && orderItems.length > 0) {
-      subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      subtotal = orderItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
     }
     
     const shippingPrice = order.shippingPrice || 0;
@@ -105,7 +105,7 @@ export async function GET(
           country: order.shippingAddress?.country || 'India'
         }
       },
-      items: orderItems.map(item => ({
+      items: orderItems.map((item: any) => ({
         name: item.name,
         quantity: item.quantity || 1,
         price: item.price || 0,

@@ -81,11 +81,14 @@ interface Order {
   taxPrice?: number;
 }
 
-export default function OrderDetailPage({ params }: { params: { id: string } }) {
+export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  // Unwrap params using React.use()
-  const unwrappedParams = use(params as unknown as Promise<{ id: string }>);
-  const { id } = unwrappedParams;
+  const [orderId, setOrderId] = useState<string>('');
+  
+  // Unwrap params
+  useEffect(() => {
+    params.then(p => setOrderId(p.id));
+  }, [params]);
   
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,6 +97,8 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
   // Fetch order details
   const fetchOrder = async () => {
+    if (!orderId) return;
+    
     setLoading(true);
     try {
       let token;
@@ -105,7 +110,6 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         }
       } catch (storageError) {
         console.error('Error accessing localStorage:', storageError);
-        useMockOrderData(id);
         return;
       }
       
@@ -118,7 +122,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         document.cookie = `isLoggedIn=true; path=/; max-age=3600; SameSite=Lax`;
       }
       
-      const response = await fetch(`/api/orders/${id}?include_product_details=true`, {
+      const response = await fetch(`/api/orders/${orderId}?include_product_details=true`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -131,14 +135,11 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
       
       if (!response.ok) {
         setError(`API Error: ${data.error || 'Unknown error'}`);
-        // Only use mock data if API fails
-        useMockOrderData(id);
         return;
       }
       
       if (!data.order) {
         setError('No order data received');
-        useMockOrderData(id);
         return;
       }
       
@@ -149,8 +150,6 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     } catch (err) {
       console.error('Error fetching order details:', err);
       setError('Failed to fetch order: ' + (err instanceof Error ? err.message : String(err)));
-      // Use mock data for development
-      useMockOrderData(id);
     } finally {
       setLoading(false);
     }
@@ -228,151 +227,6 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     };
   };
 
-  // Mock data for development when DB connection fails
-  const useMockOrderData = (orderId: string) => {
-    const mockOrders = [
-      {
-        id: '1',
-        orderNumber: 'ORD-001',
-        customer: {
-          id: '101',
-          name: 'John Smith',
-          email: 'john@example.com',
-          phone: '+91 98765 43210',
-          alternatePhone: '+91 87654 32109'
-        },
-        date: new Date().toISOString(),
-        status: 'Pending',
-        total: 1299.00,
-        items: [
-          {
-            id: 'p1',
-            name: 'Wild Escape 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Wild+Escape',
-            category: 'Perfumes',
-            subCategory: 'Premium',
-            volume: '50ML'
-          }
-        ],
-        shipping: {
-          address: '123 Main St',
-          city: 'Mumbai',
-          state: 'Maharashtra',
-          postalCode: '400001',
-          country: 'India'
-        },
-        payment: {
-          method: 'Credit Card',
-          transactionId: 'txn_123456',
-          status: 'pending'
-        }
-      },
-      {
-        id: '2',
-        orderNumber: 'ORD-002',
-        customer: {
-          id: '102',
-          name: 'Priya Sharma',
-          email: 'priya@example.com',
-          phone: '+91 87654 32109',
-          alternatePhone: '+91 76543 21098'
-        },
-        date: new Date(Date.now() - 86400000).toISOString(),
-        status: 'Processing',
-        total: 2598.00,
-        items: [
-          {
-            id: 'p2',
-            name: 'Baked Vanilla 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Baked+Vanilla',
-            category: 'Perfumes',
-            subCategory: 'Luxury',
-            volume: '50ML'
-          },
-          {
-            id: 'p3',
-            name: 'Apple Lily 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Apple+Lily',
-            category: 'Perfumes',
-            subCategory: 'Premium',
-            volume: '50ML'
-          }
-        ],
-        shipping: {
-          address: '456 Park Ave',
-          city: 'Delhi',
-          state: 'Delhi',
-          postalCode: '110001',
-          country: 'India'
-        },
-        payment: {
-          method: 'UPI',
-          transactionId: 'txn_789012',
-          status: 'completed'
-        }
-      },
-      {
-        id: '3',
-        orderNumber: 'ORD-003',
-        customer: {
-          id: '103',
-          name: 'Alex Johnson',
-          email: 'alex@example.com',
-          phone: '+91 76543 21098',
-          alternatePhone: '+91 65432 10987'
-        },
-        date: new Date(Date.now() - 172800000).toISOString(),
-        status: 'Shipped',
-        total: 3897.00,
-        items: [
-          {
-            id: 'p4',
-            name: 'Lavender Dreams 100ML',
-            quantity: 3,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Lavender+Dreams',
-            category: 'Perfumes',
-            subCategory: 'Luxury',
-            volume: '100ML'
-          }
-        ],
-        shipping: {
-          address: '789 Lake View',
-          city: 'Bangalore',
-          state: 'Karnataka',
-          postalCode: '560001',
-          country: 'India'
-        },
-        payment: {
-          method: 'Credit Card',
-          transactionId: 'txn_345678',
-          status: 'completed'
-        }
-      }
-    ];
-    
-    const foundOrder = mockOrders.find(o => o.id === orderId);
-    
-    if (foundOrder) {
-      setOrder(foundOrder);
-      setError('');
-    } else {
-      // If the specific order ID is not found, use the first mock order with the requested ID
-      setOrder({
-        ...mockOrders[0],
-        id: orderId,
-        orderNumber: `ORD-${orderId}`
-      });
-      setError('');
-    }
-  };
-
   // Update order status
   const updateOrderStatus = async (newStatus: string) => {
     setUpdatingStatus(true);
@@ -407,13 +261,13 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ orderId: id, status: newStatus })
+        body: JSON.stringify({ orderId: orderId, status: newStatus })
       });
 
       // If that fails, try the specific order endpoint
       if (!response.ok) {
         console.log('First update attempt failed, trying order-specific endpoint');
-        response = await fetch(`/api/orders/${id}`, {
+        response = await fetch(`/api/orders/${orderId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -454,13 +308,14 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
   // Load order details on component mount
   useEffect(() => {
+    if (!orderId) return;
+    
     try {
       fetchOrder();
     } catch (err) {
       console.error('Error in order detail useEffect:', err);
-      useMockOrderData(id);
     }
-  }, [id]);
+  }, [orderId]);
 
   // Format date
   const formatDate = (dateString: string) => {

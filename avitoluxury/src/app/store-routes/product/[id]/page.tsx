@@ -129,39 +129,6 @@ export default function ProductDetailPage() {
       } catch (err) {
         console.error('Error fetching product:', err);
         setError(err instanceof Error ? err.message : 'Failed to load product details');
-        
-        // Fallback to mock data if needed
-        setProduct({
-          _id: id as string,
-          name: 'Wild Escape Perfume',
-          description: 'A captivating blend that transports you to a lush forest after rainfall.',
-          price: 1499,
-          discountedPrice: 1299,
-          category: 'Woody',
-          brand: 'A V I T O   S C E N T S',
-          stock: 10,
-          images: [
-            { url: 'https://placehold.co/600x800/222/fff?text=Wild+Escape' },
-            { url: 'https://placehold.co/600x800/333/fff?text=Product+Side' },
-            { url: 'https://placehold.co/600x800/444/fff?text=Product+Back' },
-          ],
-          videos: [],
-          bulletPoints: [
-            'Long-lasting fragrance with 8-10 hours of wear',
-            'Made with premium natural ingredients',
-            'Suitable for all occasions'
-          ],
-          fragrance_notes: {
-            top: ['Bergamot', 'Lemon', 'Green Apple'],
-            middle: ['Pine', 'Cedar', 'Lavender'],
-            base: ['Sandalwood', 'Musk', 'Amber']
-          },
-          concentration: 'Eau de Parfum',
-          size: 50,
-          gender: 'Unisex',
-          productType: 'Eau de Parfum',
-          volumeRaw: '50ml' // Mock data for unit
-        });
       } finally {
         setLoading(false);
       }

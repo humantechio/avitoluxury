@@ -26,93 +26,22 @@ export default function NewArrivalsClient() {
   const [activeFilter, setActiveFilter] = useState('all');
   
   useEffect(() => {
-    // In a real application, fetch upcoming products from an API
-    // For now, use mock data with future dates
-    const mockProducts = [
-      {
-        _id: 'upcoming-1',
-        name: 'Velvet Noir',
-        description: 'A mysterious and seductive fragrance with notes of black cherry, dark chocolate, and vanilla bourbon.',
-        price: 2499,
-        image: 'https://placehold.co/600x800/272420/FFFFFF?text=Velvet+Noir',
-        launchDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5).toISOString(), // 5 days from now
-        category: 'Exclusive',
-        highlights: [
-          'Rich and decadent scent profile',
-          'Long-lasting performance',
-          'Handcrafted in small batches',
-          'Luxurious black glass bottle'
-        ],
-        preorderAvailable: true
-      },
-      {
-        _id: 'upcoming-2',
-        name: 'Ocean Mist Collection',
-        description: 'Inspired by coastal breezes, this collection brings the freshness of the ocean to your everyday life.',
-        price: 1899,
-        image: 'https://placehold.co/600x800/272420/FFFFFF?text=Ocean+Mist',
-        launchDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 12).toISOString(), // 12 days from now
-        category: 'Collection',
-        highlights: [
-          'Unisex fragrance suitable for all ages',
-          'Aquatic notes with hints of sea salt',
-          'Eco-friendly packaging',
-          'Available in 50ml and 100ml bottles'
-        ],
-        preorderAvailable: true
-      },
-      {
-        _id: 'upcoming-3',
-        name: 'Amber & Cashmere',
-        description: 'A warm, sophisticated fragrance that wraps you in comfort with notes of amber, cashmere wood, and vanilla.',
-        price: 3299,
-        image: 'https://placehold.co/600x800/272420/FFFFFF?text=Amber+Cashmere',
-        launchDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days from now
-        category: 'Premium',
-        highlights: [
-          'Rich and warm fragrance notes',
-          'Perfect for evening wear',
-          'Sustainable sourcing practices',
-          'Exclusive crystal bottle design'
-        ],
-        preorderAvailable: true
-      },
-      {
-        _id: 'upcoming-4',
-        name: 'Cedar & Sage',
-        description: 'A grounding and earthy fragrance with woody notes of cedar paired with fresh sage and citrus top notes.',
-        price: 1999,
-        image: 'https://placehold.co/600x800/272420/FFFFFF?text=Cedar+Sage',
-        launchDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(), // 7 days from now
-        category: 'Organic',
-        highlights: [
-          '100% natural ingredients',
-          'Certified organic essential oils',
-          'Recyclable packaging',
-          'Unisex appeal'
-        ],
-        preorderAvailable: false
-      },
-      {
-        _id: 'upcoming-5',
-        name: 'Summer Solstice',
-        description: 'Capture the essence of summer with this vibrant blend of tropical fruits, white flowers, and warm amber.',
-        price: 1799,
-        image: 'https://placehold.co/600x800/272420/FFFFFF?text=Summer+Solstice',
-        launchDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 15).toISOString(), // 15 days from now
-        category: 'Limited Edition',
-        highlights: [
-          'Limited summer release',
-          'Bright and cheerful scent profile',
-          'Special edition packaging',
-          'Perfect for daytime wear'
-        ],
-        preorderAvailable: true
+    const fetchUpcomingProducts = async () => {
+      try {
+        const response = await fetch('/api/products?upcoming=true');
+        const data = await response.json();
+        
+        if (data.success && data.products) {
+          setUpcomingProducts(data.products);
+        }
+      } catch (error) {
+        console.error('Error fetching upcoming products:', error);
+      } finally {
+        setLoading(false);
       }
-    ];
+    };
     
-    setUpcomingProducts(mockProducts);
-    setLoading(false);
+    fetchUpcomingProducts();
   }, []);
   
   // Update countdowns every second

@@ -6,12 +6,12 @@ import connectMongoDB from '@/app/lib/mongodb';
 // GET a single product by ID
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectMongoDB();
     // Get id directly from params
-    const { id } = context.params
+    const { id } = await context.params
     if (!id) {
       return NextResponse.json({ success: false, error: 'Product ID is required' }, { status: 400 });
     }
@@ -51,12 +51,12 @@ export async function GET(
 // UPDATE a product by ID
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectMongoDB();
     // Get id directly from params
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return NextResponse.json({ success: false, error: 'Product ID is required' }, { status: 400 });
     }
@@ -156,12 +156,12 @@ export async function PUT(
 // DELETE a product by ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectMongoDB();
     // Get id directly from params
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return NextResponse.json({ success: false, error: 'Product ID is required' }, { status: 400 });
     }

@@ -3,7 +3,7 @@ import connectMongoDB from '@/app/lib/mongodb';
 import mongoose from 'mongoose';
 
 // Analytics schema if not already defined elsewhere
-let Analytics;
+let Analytics: mongoose.Model<any>;
 
 if (mongoose.models.Analytics) {
   Analytics = mongoose.models.Analytics;

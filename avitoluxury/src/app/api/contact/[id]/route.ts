@@ -3,15 +3,15 @@ import connectMongoDB from '@/app/lib/mongodb';
 import Contact from '@/app/models/Contact';
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // GET request handler to fetch a single contact by ID
 export async function GET(request: NextRequest, { params }: Params) {
   try {
-    const { id } = params;
+    const { id } = await params;
     // Connect to the database
     await connectMongoDB();
     
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest, { params }: Params) {
 export async function PATCH(request: NextRequest, { params }: Params) {
   try {
     // Ensure params is awaited before accessing properties
-    const id = params.id;
+    const { id } = await params;
     
     // Connect to the database
     await connectMongoDB();
@@ -112,7 +112,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 export async function DELETE(request: NextRequest, { params }: Params) {
   try {
     // Ensure params is awaited before accessing properties
-    const id = params.id;
+    const { id } = await params;
     
     // Connect to the database
     await connectMongoDB();

@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
           }
         },
         order: {
-          items: order.items.map(item => {
+          items: order.items.map((item: any) => {
             // Get product details if available
             const productDetails = item.product ? {
               category: item.product.category || 'N/A',

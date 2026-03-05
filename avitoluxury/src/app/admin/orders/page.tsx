@@ -103,14 +103,12 @@ export default function AdminOrdersPage() {
 
       if (!response.ok) {
         setError(`API Error: ${data.error || 'Unknown error'}`);
-        // Only use mock data if we can't connect to the API
-        useMockOrdersData();
         return;
       }
 
       if (!data.orders || data.orders.length === 0) {
-        console.log('No orders found in database, using mock data temporarily');
-        useMockOrdersData();
+        console.log('No orders found in database');
+        setOrders([]);
         return;
       }
 
@@ -120,137 +118,9 @@ export default function AdminOrdersPage() {
     } catch (err) {
       console.error('Error fetching orders:', err);
       setError('Failed to fetch orders: ' + (err instanceof Error ? err.message : String(err)));
-      // Use mock data for development
-      useMockOrdersData();
     } finally {
       setLoading(false);
     }
-  };
-
-  // Mock data for development when DB connection fails
-  const useMockOrdersData = () => {
-    const mockOrders = [
-      {
-        id: '1',
-        orderNumber: 'ORD-001',
-        customer: {
-          id: '101',
-          name: 'John Smith',
-          email: 'john@example.com',
-          phone: '+91 98765 43210'
-        },
-        date: new Date().toISOString(),
-        status: 'Pending',
-        total: 1299.00,
-        items: [
-          {
-            id: 'p1',
-            name: 'Wild Escape 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Wild+Escape'
-          }
-        ]
-      },
-      {
-        id: '2',
-        orderNumber: 'ORD-002',
-        customer: {
-          id: '102',
-          name: 'Priya Sharma',
-          email: 'priya@example.com',
-          phone: '+91 87654 32109'
-        },
-        date: new Date(Date.now() - 86400000).toISOString(),
-        status: 'Processing',
-        total: 2598.00,
-        items: [
-          {
-            id: 'p2',
-            name: 'Baked Vanilla 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Baked+Vanilla'
-          },
-          {
-            id: 'p3',
-            name: 'Apple Lily 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Apple+Lily'
-          }
-        ]
-      },
-      {
-        id: '3',
-        orderNumber: 'ORD-003',
-        customer: {
-          id: '103',
-          name: 'Alex Johnson',
-          email: 'alex@example.com',
-          phone: '+91 76543 21098'
-        },
-        date: new Date(Date.now() - 172800000).toISOString(),
-        status: 'Shipped',
-        total: 3897.00,
-        items: [
-          {
-            id: 'p4',
-            name: 'Lavender Dreams 100ML',
-            quantity: 3,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Lavender+Dreams'
-          }
-        ]
-      },
-      {
-        id: '4',
-        orderNumber: 'ORD-004',
-        customer: {
-          id: '104',
-          name: 'Rahul Verma',
-          email: 'rahul@example.com',
-          phone: '+91 65432 10987'
-        },
-        date: new Date(Date.now() - 259200000).toISOString(),
-        status: 'Delivered',
-        total: 2598.00,
-        items: [
-          {
-            id: 'p5',
-            name: 'Midnight Noir 50ML',
-            quantity: 2,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Midnight+Noir'
-          }
-        ]
-      },
-      {
-        id: '5',
-        orderNumber: 'ORD-005',
-        customer: {
-          id: '105',
-          name: 'Anjali Patel',
-          email: 'anjali@example.com',
-          phone: '+91 54321 09876'
-        },
-        date: new Date(Date.now() - 345600000).toISOString(),
-        status: 'Cancelled',
-        total: 1299.00,
-        items: [
-          {
-            id: 'p6',
-            name: 'Citrus Burst 50ML',
-            quantity: 1,
-            price: 1299.00,
-            image: 'https://placehold.co/80x80/eee/000?text=Citrus+Burst'
-          }
-        ]
-      }
-    ];
-    
-    setOrders(mockOrders);
-    setError('');
   };
 
   // Update order status

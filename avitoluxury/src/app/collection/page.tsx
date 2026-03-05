@@ -16,6 +16,7 @@ interface Product {
   rating: number;
   ml?: number;
   gender?: string;
+  productType: string;
 }
 
 export default function CollectionPage() {
@@ -65,64 +66,6 @@ export default function CollectionPage() {
       } catch (err) {
         console.error('Error fetching products:', err);
         setError('Failed to load products. Please try again later.');
-        
-        // Set some mock products for development
-        const mockProducts = [
-          {
-            _id: '1',
-            name: 'Midnight Elixir',
-            description: 'Captivating blend of amber, vanilla, and musk for a mysterious allure',
-            price: 199.99,
-            discountedPrice: 149.99,
-            category: 'Floral',
-            images: [{ url: 'https://placehold.co/400x500/272420/FFFFFF?text=Midnight+Elixir' }],
-            rating: 4.5,
-            ml: 50,
-            gender: 'unisex',
-          },
-          {
-            _id: '2',
-            name: 'Golden Aura',
-            description: 'Luxurious notes of bergamot, jasmine, and sandalwood for timeless elegance',
-            price: 299.99,
-            discountedPrice: 249.99,
-            category: 'Woody',
-            images: [{ url: 'https://placehold.co/400x500/272420/FFFFFF?text=Golden+Aura' }],
-            rating: 4.8,
-            ml: 100,
-            gender: 'male',
-          },
-          {
-            _id: '3',
-            name: 'Royal Oud',
-            description: 'Opulent blend of oud wood, rose, and spices fit for royalty',
-            price: 399.99,
-            discountedPrice: 0,
-            category: 'Oriental',
-            images: [{ url: 'https://placehold.co/400x500/272420/FFFFFF?text=Royal+Oud' }],
-            rating: 4.9,
-            ml: 75,
-            gender: 'male',
-          },
-          {
-            _id: '4',
-            name: 'Velvet Rose',
-            description: 'Elegant blend of roses with subtle hints of patchouli',
-            price: 229.99,
-            discountedPrice: 199.99,
-            category: 'Floral',
-            images: [{ url: 'https://placehold.co/400x500/272420/FFFFFF?text=Velvet+Rose' }],
-            rating: 4.6,
-            ml: 50,
-            gender: 'female',
-          },
-        ];
-        
-        setProducts(mockProducts);
-        setFilteredProducts(mockProducts);
-        
-        // Extract filter options from mock products
-        extractFilterOptions(mockProducts);
       } finally {
         setLoading(false);
       }

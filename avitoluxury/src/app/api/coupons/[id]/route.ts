@@ -13,9 +13,9 @@ const connectMongo = async () => {
 };
 
 type RouteParams = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 // GET a single coupon by ID
@@ -24,7 +24,7 @@ export async function GET(
   context: RouteParams
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     await connectMongo();
     const coupon = await Coupon.findById(id);
 
@@ -44,7 +44,7 @@ export async function PUT(
   context: RouteParams
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     await connectMongo();
     const body = await request.json();
     
@@ -70,7 +70,7 @@ export async function DELETE(
   context: RouteParams
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     await connectMongo();
     const coupon = await Coupon.findByIdAndDelete(id);
 

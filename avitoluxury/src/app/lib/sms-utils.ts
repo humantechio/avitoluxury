@@ -76,10 +76,17 @@ export const sendAdminSMS = async (phoneNumber: string): Promise<boolean> => {
 };
 
 // Verify OTP code using 2Factor.in
-export const verifyAdminSMS = async (phoneNumber: string, otp: string, sessionId: string): Promise<boolean> => {
+export const verifyAdminSMS = async (phoneNumber: string, otp: string, sessionId?: string): Promise<boolean> => {
   try {
     const apiKey = process.env.TWO_FACTOR_API_KEY;
     const formattedPhone = formatPhoneNumber(phoneNumber);
+
+    // If no sessionId provided, try direct OTP verification
+    if (!sessionId) {
+      console.warn('No sessionId provided for OTP verification, using direct verification');
+      // For now, return false as we need proper session-based verification
+      return false;
+    }
 
     // Make the API call to verify OTP
     const response = await fetch('https://2factor.in/API/V1/' + apiKey + '/SMS/VERIFY/' + sessionId + '/' + otp, {
@@ -137,10 +144,6 @@ export const send2FactorSMS = async (
     if (orderData) {
       formData.append('var1', orderData.amount.toString());
       formData.append('var2', orderData.trackingId);
-    } else {
-      // Use placeholder values for testing
-      formData.append('var2', '1999');
-      formData.append('var3', 'TRK789012');
     }
 
     console.log('Sending with template variables:', Object.fromEntries(formData));

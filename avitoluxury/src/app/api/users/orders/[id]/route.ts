@@ -7,7 +7,7 @@ import { getSession } from '../../../../lib/server-auth-exports';
 // GET a specific order by ID (only for the authenticated user)
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -21,7 +21,7 @@ export async function GET(
     await connectMongoDB();
     
     // Get order ID from params
-    const { id } = params;
+    const { id } = await params;
     
     // Validate the order ID
     if (!id) {
@@ -80,7 +80,7 @@ export async function GET(
 // PUT - Update order status (for canceling an order)
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -94,7 +94,7 @@ export async function PUT(
     await connectMongoDB();
     
     // Get order ID from params
-    const { id } = params;
+    const { id } = await params;
     
     // Validate the order ID
     if (!id) {

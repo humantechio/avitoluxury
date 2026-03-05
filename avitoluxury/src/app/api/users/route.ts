@@ -108,11 +108,11 @@ export async function GET(request: Request) {
         }, { status: 500 });
       }
       
-      // For all users, return mock data as fallback
+      // For all users, return empty list as fallback
       return NextResponse.json({ 
         success: true, 
-        users: getMockUsers(),
-        total: getMockUsers().length
+        users: [],
+        total: 0
       });
     }
   } catch (error) {
@@ -127,65 +127,13 @@ export async function GET(request: Request) {
       }, { status: 500 });
     }
     
-    // Return mock data for all users in case of any errors
+    // Return empty list for all users in case of any errors
     return NextResponse.json({ 
       success: true, 
-      users: getMockUsers(),
-      total: getMockUsers().length
+      users: [],
+      total: 0
     });
   }
-}
-
-// Function to generate mock users for development fallback
-function getMockUsers() {
-  return [
-      {
-        id: '1',
-        name: 'Admin User',
-      email: 'admin@example.com',
-        role: 'admin',
-        createdAt: '2023-05-01T10:00:00Z',
-        lastLogin: '2023-06-15T08:30:00Z',
-        status: 'active'
-      },
-      {
-        id: '2',
-        name: 'John Smith',
-        email: 'john@example.com',
-        role: 'user',
-        createdAt: '2023-05-10T14:25:00Z',
-        lastLogin: '2023-06-14T16:45:00Z',
-        status: 'active'
-      },
-      {
-        id: '3',
-        name: 'Priya Sharma',
-        email: 'priya@example.com',
-        role: 'user',
-        createdAt: '2023-05-12T09:15:00Z',
-        lastLogin: '2023-06-13T11:20:00Z',
-        status: 'active'
-      },
-    // Additional mock users...
-      {
-        id: '4',
-        name: 'Rahul Kumar',
-        email: 'rahul@example.com',
-        role: 'user',
-        createdAt: '2023-05-15T16:30:00Z',
-        lastLogin: '2023-06-10T14:10:00Z',
-        status: 'active'
-      },
-      {
-        id: '5',
-        name: 'Kavita Verma',
-        email: 'kavita@example.com',
-        role: 'user',
-        createdAt: '2023-05-30T09:50:00Z',
-        lastLogin: '2023-06-04T14:40:00Z',
-        status: 'active'
-      }
-    ];
 }
 
 // POST a new user
